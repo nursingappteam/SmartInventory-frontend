@@ -16,7 +16,7 @@ export default function Login() {
                {params: {username, password}})
     .then(res => {
       if(res.data.validation){
-        alert("Your password is correct. user: " + username + password)
+        alert("Your password is correct.") //TODO: navigate to inventory page
       }
       else{
         alert("Your password is incorrect. Try again.")
@@ -24,11 +24,6 @@ export default function Login() {
     })
   }
   
-  // move to register page
-  const navigate = useNavigate();
-  const navigateToRegister = () => {
-    navigate('/register');
-  }
   
   return (
     <div
@@ -96,7 +91,7 @@ export default function Login() {
             >
               Log in
             </Button>
-            Or <a onClick={navigateToRegister} href="">register now!</a>
+            Or <a  href="/register">register now!</a>
           </Form.Item>
         </Form>
       </div>

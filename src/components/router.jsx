@@ -7,7 +7,12 @@ import Register from "../pages/login/register";
 
 export default () => (
     <Switch>
-      <Route path="/" component={Login} />
-      <Route path="/register" component={Register} />
+      <Route path="/" exact>
+        <Login />
+      </Route>
+    
+      <Route path="/register" exact>
+        <Register />
+      </Route>
     </Switch>
 );
