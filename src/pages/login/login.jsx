@@ -24,11 +24,11 @@ export default function Login() {
     })
   }
   
-  /*/ move to register page
+  // move to register page
   const navigate = useNavigate();
   const navigateToRegister = () => {
     navigate('/register');
-  }*/
+  }
   
   return (
     <div
@@ -96,7 +96,7 @@ export default function Login() {
             >
               Log in
             </Button>
-            Or <a /*onClick={navigateToRegister} */href="">register now!</a>
+            Or <a onClick={navigateToRegister} href="">register now!</a>
           </Form.Item>
         </Form>
       </div>
