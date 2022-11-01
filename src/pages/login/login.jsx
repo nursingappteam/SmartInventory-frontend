@@ -11,7 +11,7 @@ export default function Login() {
   //verify login info
   const onFinish = values => {
     const {username, password} = values
-    axios.post('https://foggy-plump-auroraceratops-testdb.glitch.me/validatePassword', 
+    axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
                null, 
                {params: {username, password}})
     .then(res => {
