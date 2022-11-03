@@ -14,7 +14,9 @@ const NormalLoginForm = () => {
   const onFinish = (values) => {
     const {username, password} = values
     axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
-               null, 
+               {headers: {
+               "API_KEY": process.env.API_KEY
+               }}, 
                {params: {username, password}})
     .then(res => {
       if(res.data.validation){
@@ -49,7 +51,7 @@ const NormalLoginForm = () => {
           <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"} className="img" />
         </div>
         <div className="login-form-container">
-          <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_remaster.png?v=1667445064207"} />
+          <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo.png?v=1667445088387"} />
           <h1>Login to Your Account</h1>
           <Form.Item
             name="username"
