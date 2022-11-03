@@ -1,14 +1,29 @@
 import React from 'react';
-import Login from './pages/login/login';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import Login from './pages/login/login.jsx';
+import Register from "./pages/login/register.jsx";
 
-import PageRouter from './components/router.jsx'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+
+//import PageRouter from './components/router.jsx'
 
 function App() {
   
   return (
+//     <Router>
+//       <Switch>
+//         <Route path="/" exact>
+//           <Login />
+//         </Route>
+
+//         <Route path="/register" exact>
+//           <Register />
+//         </Route>
+//       </Switch> 
+//     </Router>
     <Router>
-      <PageRouter /> 
+      <Routes>
+        <Route path="/" element ={<Login></Login>}/>
+      </Routes>
     </Router>
   );
 }

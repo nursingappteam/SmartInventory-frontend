@@ -33,6 +33,7 @@ const NormalLoginForm = () => {
         'password': password
       }
     };
+    console.log(options);
     await axios(options);
     // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
     //            {"username": username, 
