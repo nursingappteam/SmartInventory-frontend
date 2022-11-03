@@ -39,9 +39,18 @@ const NormalLoginForm = () => {
     }
 
     //axios request
-    const response = await axios(options)
-    console.log(response)
-  
+    const response = await axios(options).then(response => {
+       if(response.data.status === 200){
+         alert("Logging in...") //TODO: navigate to inventory page
+       }
+       else{
+         alert("Your password is incorrect. Try again.")
+       }
+     }
+     ).catch(error => {
+      console.log(error)
+    })
+      
     // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
     //            {"username": username, 
     //             "password": password }, null)
