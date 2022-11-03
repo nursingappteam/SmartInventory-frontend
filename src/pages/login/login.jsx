@@ -23,16 +23,17 @@ const NormalLoginForm = () => {
   const onFinish = (values) => {
     const {username, password} = values
     axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
-               null, 
-               {params: {username, password}})
-    .then(res => {
-      if(res.data.validation){
-        alert("Your password is correct.") //TODO: navigate to inventory page
+               {"username": username, 
+                "password": password }, null)
+      .then(res => {
+        if(res.data.validation){
+          alert("Your password is correct.") //TODO: navigate to inventory page
+        }
+        else{
+          alert("Your password is incorrect. Try again.")
+        }
       }
-      else{
-        alert("Your password is incorrect. Try again.")
-      }
-    })
+      )
   }
 
   return (

@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     strictPort: true,
     hmr: {
-      port: prov.port // Run the websocket server on the SSL port
+      port: process.env.port // Run the websocket server on the SSL port
     }
   } 
 });
