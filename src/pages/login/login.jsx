@@ -1,9 +1,11 @@
-import React from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
-
+import React from "react";
 import "antd/dist/antd.css";
-import { Form, Input, Button, Checkbox } from "antd";
+import "./styles.css";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import uta from "./assets/uta.png";
+import logo from "./assets/logo_remaster.png";
+
 import axios from 'axios';
 
 
@@ -28,31 +30,37 @@ export default function Login() {
   
   
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ width: 400 }}>
-        <img src={"https://cdn.glitch.global/ba37ca7a-26f4-4674-bea2-b77346f737cf/smart_inventory_logo.png?v=1666977749129"} alt="logo" style={{ width: 400 }} />
-        <h1 style={{ textAlign: "center" }}>Login</h1>
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={onFinish}
-        >
+    <div className="container">
+      <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          remember: true
+        }}
+        onFinish={onFinish}
+      >
+        <div className="login-sider">
+          <h2>New Here?</h2>
+          <p>
+            Sign up and take advantage of UTA's Nursing Department inventory.
+            <Form.Item>
+              <Button type="button" className="login-form-signup-button">
+                Sign Up
+              </Button>
+            </Form.Item>
+          </p>
+          <img src={uta} className="img" />
+        </div>
+        <div className="login-form-container">
+          <img src={logo} />
+          <h1>Login to Your Account</h1>
           <Form.Item
             name="username"
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
-              },
+                message: "Please input your Username!"
+              }
             ]}
           >
             <Input
@@ -65,8 +73,8 @@ export default function Login() {
             rules={[
               {
                 required: true,
-                message: "Please input your Password!",
-              },
+                message: "Please input your Password!"
+              }
             ]}
           >
             <Input
@@ -76,16 +84,6 @@ export default function Login() {
             />
           </Form.Item>
           <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-
-            <a className="login-form-forgot" href="">
-              Forgot password
-            </a>
-          </Form.Item>
-
-          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
@@ -93,10 +91,14 @@ export default function Login() {
             >
               Log in
             </Button>
-            Or <a  href="/register">register now!</a>
           </Form.Item>
-        </Form>
-      </div>    
+          <a className="login-form-forgot" href="">
+            Forgot password?
+          </a>
+        </div>
+      </Form>
     </div>
   );
-}
+};
+
+export default NormalLoginForm;
