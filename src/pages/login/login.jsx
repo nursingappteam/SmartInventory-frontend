@@ -3,17 +3,15 @@ import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import uta from "./assets/uta.png";
-import logo from "./assets/logo_remaster.png";
+//import uta from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928";
+//import logo from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_remaster.png?v=1667445064207";
 
 import axios from 'axios';
 
 
 
-export default function Login() {
-  
-  //verify login info
-  const onFinish = values => {
+const NormalLoginForm = () => {
+  const onFinish = (values) => {
     const {username, password} = values
     axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
                null, 
@@ -27,8 +25,7 @@ export default function Login() {
       }
     })
   }
-  
-  
+
   return (
     <div className="container">
       <Form
@@ -49,10 +46,10 @@ export default function Login() {
               </Button>
             </Form.Item>
           </p>
-          <img src={uta} className="img" />
+          <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"} className="img" />
         </div>
         <div className="login-form-container">
-          <img src={logo} />
+          <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_remaster.png?v=1667445064207"} />
           <h1>Login to Your Account</h1>
           <Form.Item
             name="username"
