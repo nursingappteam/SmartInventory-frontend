@@ -23,26 +23,25 @@ const NormalLoginForm = () => {
   let onFinish = async (values) => {
     const request_url = 'https://smartinventory-backend.glitch.me/users/validateUser'
     const {username, password} = values
+    
+    //axios request options
     const options = {
       method: 'POST',
-      url: request_url,
-      headers: { 'content-type': 'application/x-www-form-urlencoded',
-                 'api_key': REACT_APP_API_KEY},
+      headers: {
+        'Content-Type': 'application/json',
+        'api_key': REACT_APP_API_KEY
+      },
       data: {
-        'username': username,
-        'password': password
-      }
-    };
-    console.log(options);
-    await axios(options)
-    .then(res => {
-      console.log(res)
-      return res
-    })
-    .catch(err => {
-      console.log(err)
-      return -1
-    });
+        username,
+        password
+      },
+      url: request_url
+    }
+
+    //axios request
+    const response = await axios(options)
+    console.log(response)
+  
     // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
     //            {"username": username, 
     //             "password": password }, null)
