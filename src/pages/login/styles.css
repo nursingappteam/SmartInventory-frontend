@@ -98,7 +98,7 @@
   font-size: 70px;
   font-weight: bold;
 }
-.login-sider > p {
+.login-sider > div {
   position: relative;
   top: -10%;
   font-size: 20px;

@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
+const REACT_APP_API_KEY = "VNbvxPFZmWJennmEJJCiFz9ixrOFDBlj";
 //import uta from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928";
 //import logo from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_remaster.png?v=1667445064207";
 
@@ -61,14 +61,14 @@ const NormalLoginForm = () => {
       >
         <div className="login-sider">
           <h2>New Here?</h2>
-          <p>
+          <div>
             Sign up and take advantage of UTA's Nursing Department inventory.
             <Form.Item>
               <Button type="button" className="login-form-signup-button">
                 Sign Up
               </Button>
             </Form.Item>
-          </p>
+          </div>
           <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"} className="img" />
         </div>
         <div className="login-form-container">

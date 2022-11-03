@@ -22,7 +22,7 @@ function App() {
 //     </Router>
     <Router>
       <Routes>
-        <Route path="/" element ={<Login></Login>}/>
+        <Route path="/" element ={<Login />}/>
       </Routes>
     </Router>
   );
