@@ -34,7 +34,15 @@ const NormalLoginForm = () => {
       }
     };
     console.log(options);
-    await axios(options);
+    await axios(options)
+    .then(res => {
+      console.log(res)
+      return res
+    })
+    .catch(err => {
+      console.log(err)
+      return -1
+    });
     // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
     //            {"username": username, 
     //             "password": password }, null)

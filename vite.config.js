@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    strictPort: true,
+    https: true,
     hmr: {
       port: process.env.port // Run the websocket server on the SSL port
     }
