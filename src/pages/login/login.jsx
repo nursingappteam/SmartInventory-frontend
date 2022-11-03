@@ -12,9 +12,11 @@ import axios from 'axios';
 
 const NormalLoginForm = () => {
   
-  axios.defaults.headers.common = {
-    "X-API-KEY": process.env.API_KEY,
-  };
+  const instance = axios.create({
+    baseURL: 'https://smartinventory-backend.glitch.me'
+  });
+  
+  instance.defaults.headers.common['Authorization'] = process.env.API_TOKEN;
   
   const onFinish = (values) => {
     const {username, password} = values
