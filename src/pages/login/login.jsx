@@ -49,6 +49,7 @@ const NormalLoginForm = () => {
      }
      ).catch(error => {
       alert("Your credentials are incorrect. Try again.")
+      
     })
       
     // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
