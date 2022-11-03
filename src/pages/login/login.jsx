@@ -11,12 +11,15 @@ import axios from 'axios';
 
 
 const NormalLoginForm = () => {
+  
+  axios.defaults.headers.common = {
+    "X-API-KEY": process.env.API_KEY,
+  };
+  
   const onFinish = (values) => {
     const {username, password} = values
     axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
-               {headers: {
-               "API_KEY": process.env.API_KEY
-               }}, 
+               null, 
                {params: {username, password}})
     .then(res => {
       if(res.data.validation){
