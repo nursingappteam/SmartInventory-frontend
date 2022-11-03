@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-//const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 //import uta from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928";
 //import logo from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_remaster.png?v=1667445064207";
 
@@ -20,20 +20,32 @@ const NormalLoginForm = () => {
   instance.defaults.headers.common['Authorization'] = REACT_APP_API_KEY;
   */
   
-  const onFinish = (values) => {
+  let onFinish = async (values) => {
+    const request_url = 'https://smartinventory-backend.glitch.me/users/validateUser'
     const {username, password} = values
-    axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
-               {"username": username, 
-                "password": password }, null)
-      .then(res => {
-        if(res.data.validation){
-          alert("Your password is correct.") //TODO: navigate to inventory page
-        }
-        else{
-          alert("Your password is incorrect. Try again.")
-        }
+    const options = {
+      method: 'POST',
+      url: request_url,
+      headers: { 'content-type': 'application/x-www-form-urlencoded',
+                 'api_key': REACT_APP_API_KEY},
+      data: {
+        'username': username,
+        'password': password
       }
-      )
+    };
+    await axios(options);
+    // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
+    //            {"username": username, 
+    //             "password": password }, null)
+    //   .then(res => {
+    //     if(res.data.validation){
+    //       alert("Your password is correct.") //TODO: navigate to inventory page
+    //     }
+    //     else{
+    //       alert("Your password is incorrect. Try again.")
+    //     }
+    //   }
+    //   )
   }
 
   return (

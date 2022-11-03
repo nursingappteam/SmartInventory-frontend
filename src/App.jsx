@@ -7,9 +7,9 @@ import PageRouter from './components/router.jsx'
 function App() {
   
   return (
-    <router>
+    <Router>
       <PageRouter /> 
-    </router>
+    </Router>
   );
 }
 
