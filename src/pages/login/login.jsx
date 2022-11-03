@@ -96,7 +96,7 @@ export default function Login() {
             Or <a  href="/register">register now!</a>
           </Form.Item>
         </Form>
-      </div>
+      </div>    
     </div>
   );
 }
