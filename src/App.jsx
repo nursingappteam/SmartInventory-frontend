@@ -9,20 +9,11 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 function App() {
   
   return (
-//     <Router>
-//       <Switch>
-//         <Route path="/" exact>
-//           <Login />
-//         </Route>
-
-//         <Route path="/register" exact>
-//           <Register />
-//         </Route>
-//       </Switch> 
-//     </Router>
     <Router>
       <Routes>
         <Route path="/" element ={<Login />}/>
+        
+        <Route path="/register" element= {<Register />} />
       </Routes>
     </Router>
   );
