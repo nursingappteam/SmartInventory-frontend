@@ -3,9 +3,11 @@ import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import axios from 'axios';
+import { Link } from "react-router-dom";
+
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-import axios from 'axios';
 
 
 
@@ -56,7 +58,7 @@ const NormalLoginForm = () => {
           <div>
             Sign up and take advantage of UTA's Nursing Department inventory.
             <Form.Item>
-              <Button type="button" to={"/register"} className="login-form-signup-button">
+              <Button type="button" href={"/register"} className="login-form-signup-button">
                 Sign Up
               </Button>
             </Form.Item>
