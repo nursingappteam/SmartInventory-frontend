@@ -13,11 +13,6 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 const NormalLoginForm = () => {
   
-  const navigate = useNavigate();
-  
-  const toRegister = () => {
-    navigate('/register');
-  }
   
   // logic for Login
   let onFinish = async (values) => {
@@ -65,11 +60,11 @@ const NormalLoginForm = () => {
           <h2>New Here?</h2>
           <div>
             Sign up and take advantage of UTA's Nursing Department inventory.
-            <Form.Item>
+            <Form.Item >
               <Button type="link" className="login-form-signup-button">
                 Sign Up
               </Button>
-              navigate={navigate}
+              
             </Form.Item>
           </div>
           <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"} className="img" />
