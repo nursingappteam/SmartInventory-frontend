@@ -4,8 +4,6 @@ import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 const API_KEY = import.meta.env.REACT_APP_API_KEY;
-//import uta from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928";
-//import logo from "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_remaster.png?v=1667445064207";
 
 import axios from 'axios';
 
@@ -13,13 +11,7 @@ import axios from 'axios';
 
 const NormalLoginForm = () => {
   
-  /*const instance = axios.create({
-    baseURL: 'https://smartinventory-backend.glitch.me'
-  });
-  
-  instance.defaults.headers.common['Authorization'] = REACT_APP_API_KEY;
-  */
-  
+  // logic for Login
   let onFinish = async (values) => {
     const request_url = 'https://smartinventory-backend.glitch.me/users/validateUser'
     const {username, password} = values
@@ -43,27 +35,11 @@ const NormalLoginForm = () => {
        if(response.status === 200){
          alert("Logging in...") //TODO: navigate to inventory page
        }
-       //else{
-       //  alert("Your password is incorrect. Try again.")
-       //}
      }
      ).catch(error => {
       alert("Your credentials are incorrect. Try again.")
-      console.log(API_KEY)
+      console.log("yo");
     })
-      
-    // axios.post('https://smartinventory-backend.glitch.me/users/validateUser', 
-    //            {"username": username, 
-    //             "password": password }, null)
-    //   .then(res => {
-    //     if(res.data.validation){
-    //       alert("Your password is correct.") //TODO: navigate to inventory page
-    //     }
-    //     else{
-    //       alert("Your password is incorrect. Try again.")
-    //     }
-    //   }
-    //   )
   }
 
   return (
