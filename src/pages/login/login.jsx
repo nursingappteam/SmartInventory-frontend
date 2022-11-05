@@ -4,7 +4,7 @@ import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -12,6 +12,12 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 
 const NormalLoginForm = () => {
+  
+  const navigate = useNavigate();
+  
+  const toRegister = () => {
+    navigate('/register');
+  }
   
   // logic for Login
   let onFinish = async (values) => {
@@ -42,10 +48,9 @@ const NormalLoginForm = () => {
       alert("Your credentials are incorrect. Try again.")
     })
   }
+  
+  
 
-  nextpath(path) {
-    this.props.history.push(path);
-  }
   return (
     <div className="container">
       <Form
@@ -61,9 +66,10 @@ const NormalLoginForm = () => {
           <div>
             Sign up and take advantage of UTA's Nursing Department inventory.
             <Form.Item>
-              <Button type="button" onClick={() => this.nextpath("/register") } className="login-form-signup-button">
+              <Button type="link" className="login-form-signup-button">
                 Sign Up
               </Button>
+              navigate={navigate}
             </Form.Item>
           </div>
           <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"} className="img" />
