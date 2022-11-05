@@ -43,6 +43,9 @@ const NormalLoginForm = () => {
     })
   }
 
+  nextpath(path) {
+    this.props.history.push(path);
+  }
   return (
     <div className="container">
       <Form
@@ -58,7 +61,7 @@ const NormalLoginForm = () => {
           <div>
             Sign up and take advantage of UTA's Nursing Department inventory.
             <Form.Item>
-              <Button type="button" to="/register" className="login-form-signup-button">
+              <Button type="button" onClick={() => this.nextpath("/register") } className="login-form-signup-button">
                 Sign Up
               </Button>
             </Form.Item>
