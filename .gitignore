@@ -5,3 +5,5 @@ web_modules
 .glitchdotcom.json
 build
 package-lock.json
+.env
+.dccache
