@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-const API_KEY = import.meta.env.REACT_APP_API_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 import axios from 'axios';
 
@@ -38,7 +38,6 @@ const NormalLoginForm = () => {
      }
      ).catch(error => {
       alert("Your credentials are incorrect. Try again.")
-      console.log("yo");
     })
   }
 
