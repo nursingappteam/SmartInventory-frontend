@@ -20,7 +20,7 @@
     "wouter": "^2.7.4"
   },
   "devDependencies": {
-    "vite": "^2.4.4"
+    "vite": "^2.9.15"
   },
   "browserslist": [
     ">0.2%",
