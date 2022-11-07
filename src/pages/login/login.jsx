@@ -30,7 +30,7 @@ const NormalLoginForm = () => {
         api_key: API_KEY,
       },
       data: {
-        username,
+        user_email: username,
         password,
       },
       url: request_url,
@@ -45,6 +45,7 @@ const NormalLoginForm = () => {
       })
       .catch((error) => {
         alert("Your credentials are incorrect. Try again.");
+        console.log(values);
       });
   };
 
