@@ -3,48 +3,51 @@ import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import axios from 'axios';
-import { useNavigate  } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-
-
-
 const NormalLoginForm = () => {
-  
-  
+  // moving to register page
+  const navigate = useNavigate();
+
+  const toRegister = () => {
+    navigate("/register");
+  };
+
   // logic for Login
   let onFinish = async (values) => {
-    const request_url = 'https://smartinventory-backend.glitch.me/users/validateUser'
-    const {username, password} = values
-    
+    const request_url =
+      "https://smartinventory-backend.glitch.me/users/validateUser";
+    const { username, password } = values;
+
     //axios request options
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'api_key': API_KEY
+        "Content-Type": "application/json",
+        api_key: API_KEY,
       },
       data: {
-        username,
-        password
+        user_email: username,
+        password,
       },
-      url: request_url
-    }
+      url: request_url,
+    };
 
     //axios request
-    const response = await axios(options).then(response => {
-       if(response.status === 200){
-         alert("Logging in...") //TODO: navigate to inventory page
-       }
-     }
-     ).catch(error => {
-      alert("Your credentials are incorrect. Try again.")
-    })
-  }
-  
-  
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          alert("Logging in..."); //TODO: navigate to inventory page
+        }
+      })
+      .catch((error) => {
+        alert("Your credentials are incorrect. Try again.");
+        console.log(values);
+      });
+  };
 
   return (
     <div className="container">
@@ -52,7 +55,7 @@ const NormalLoginForm = () => {
         name="normal_login"
         className="login-form"
         initialValues={{
-          remember: true
+          remember: true,
         }}
         onFinish={onFinish}
       >
@@ -60,25 +63,37 @@ const NormalLoginForm = () => {
           <h2>New Here?</h2>
           <div>
             Sign up and take advantage of UTA's Nursing Department inventory.
-            <Form.Item >
-              <Button type="link" className="login-form-signup-button">
+            <Form.Item>
+              <Button
+                type="button"
+                onClick={toRegister}
+                className="login-form-signup-button"
+              >
                 Sign Up
               </Button>
-              
             </Form.Item>
           </div>
-          <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"} className="img" />
+          <img
+            src={
+              "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"
+            }
+            className="img"
+          />
         </div>
         <div className="login-form-container">
-          <img src={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo.png?v=1667445088387"} />
+          <img
+            src={
+              "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo.png?v=1667445088387"
+            }
+          />
           <h1>Login to Your Account</h1>
           <Form.Item
             name="username"
             rules={[
               {
                 required: true,
-                message: "Please input your Username!"
-              }
+                message: "Please input your Username!",
+              },
             ]}
           >
             <Input
@@ -91,8 +106,8 @@ const NormalLoginForm = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your Password!"
-              }
+                message: "Please input your Password!",
+              },
             ]}
           >
             <Input
