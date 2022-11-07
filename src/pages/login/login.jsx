@@ -17,7 +17,7 @@ const NormalLoginForm = () => {
   };
 
   const toDashboard = () => {
-    navigate("Dashboard");
+    navigate("/Dashboard");
   };
   // logic for Login
   let onFinish = async (values) => {
