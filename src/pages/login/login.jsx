@@ -16,6 +16,9 @@ const NormalLoginForm = () => {
     navigate("/register");
   };
 
+  const toDashboard = () => {
+    navigate("/Dashboard");
+  };
   // logic for Login
   let onFinish = async (values) => {
     const request_url =
@@ -40,7 +43,8 @@ const NormalLoginForm = () => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          alert("Logging in..."); //TODO: navigate to inventory page
+          //alert("Logging in..."); //TODO: navigate to inventory page
+          toDashboard;
         }
       })
       .catch((error) => {

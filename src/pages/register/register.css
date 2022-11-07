@@ -1,0 +1,20 @@
+.img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 33%;
+}
+
+.text_box {
+  display: block;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.title {
+  text-align: center;
+  margin-top: 5%;
+  width: auto;
+}
