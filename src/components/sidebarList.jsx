@@ -1,0 +1,82 @@
+import * as React from "react";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SettingsIcon from "@mui/icons-material/Settings";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import RemoveIcon from "@mui/icons-material/Remove";
+import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
+
+export const mainListItems = (
+  <React.Fragment>
+    {/* SideBar Dashboard */}
+    <ListItemButton>
+      <ListItemIcon>
+        <DashboardIcon />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+    {/* SideBar Shopping Cart */}
+    <ListItemButton href="/shoppingcart" variant="contained">
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Shopping Cart" />
+    </ListItemButton>
+    {/* SideBar Search */}
+    <ListItemButton href="/search" variant="contained">
+      <ListItemIcon>
+        <SearchIcon />
+      </ListItemIcon>
+      <ListItemText primary="Search" />
+    </ListItemButton>
+    {/* SideBar Settings */}
+    <ListItemButton href="/settings" variant="contained">
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Settings" />
+    </ListItemButton>
+  </React.Fragment>
+);
+
+// export const secondaryListItems = (
+//   <React.Fragment>
+//     <ListSubheader component="div" inset>
+//       Administrator
+//     </ListSubheader>
+//     {/* SideBar Add */}
+//     <ListItemButton href="/add" variant="contained">
+//       <ListItemIcon>
+//         <AddIcon />
+//       </ListItemIcon>
+//       <ListItemText primary="Add" />
+//     </ListItemButton>
+//     {/* SideBar Remove */}
+//     <ListItemButton href="/remove" variant="contained">
+//       <ListItemIcon>
+//         <RemoveIcon />
+//       </ListItemIcon>
+//       <ListItemText primary="Remove" />
+//     </ListItemButton>
+//     {/* SideBar Inventory */}
+//     <ListItemButton href="/inventory" variant="contained">
+//       <ListItemIcon>
+//         <InventoryIcon />
+//       </ListItemIcon>
+//       <ListItemText primary="Inventory" />
+//     </ListItemButton>
+//     {/* SideBar Inventory */}
+//     <ListItemButton href="/surplus" variant="contained">
+//       <ListItemIcon>
+//         <RunningWithErrorsIcon />
+//       </ListItemIcon>
+//       <ListItemText primary="Surplus" />
+//     </ListItemButton>
+//   </React.Fragment>
+// );
