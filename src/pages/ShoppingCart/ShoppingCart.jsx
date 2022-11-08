@@ -26,11 +26,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // ----------------------------------------------------------------
 // Imports for the page
 import {
-  mainListItems,
-  secondaryListItems
+  mainListItems
 } from "../../components/sidebarList";
-import HelloCart from "./HelloCart";
-import logo from "../../../assets/logo_small.png";
+import HelloCart from "./HelloShoppingCart";
 
 
 
@@ -128,7 +126,7 @@ function ShoppingCartContent() {
               <MenuIcon />
             </IconButton>
             <Card sx={{ bgcolor: "primary.main", borderColor: "primary.main" }}>
-              <CardMedia component="img" height="80" image={logo} alt="logo" />
+              <CardMedia component="img" height="80" image={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_small.png?v=1667866685214"} alt="logo" />
             </Card>
             <Typography
               component="h1"
@@ -165,7 +163,6 @@ function ShoppingCartContent() {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
         {/* where the Main Homepage stuff happens*/}

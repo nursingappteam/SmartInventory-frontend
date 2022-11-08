@@ -5,7 +5,7 @@ import Title from "../../components/Title";
 export default function Chart() {
   return (
     <React.Fragment>
-      <Title>Welcome Search!</Title>
+      <Title>Welcome Settings!</Title>
     </React.Fragment>
   );
 }
