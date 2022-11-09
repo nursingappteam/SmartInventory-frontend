@@ -43,13 +43,11 @@ const NormalLoginForm = () => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          //alert("Logging in..."); //TODO: navigate to inventory page
-          toDashboard;
+          toDashboard();
         }
       })
       .catch((error) => {
         alert("Your credentials are incorrect. Try again.");
-        console.log(values);
       });
   };
 
