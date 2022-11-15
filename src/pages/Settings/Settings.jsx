@@ -28,7 +28,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   mainListItems
 } from "../../components/sidebarList";
-import HelloSettings from "./HelloSettings";
+import AccountSettings from "./AccountSettings";
 
 
 const drawerWidth = 240;
@@ -176,20 +176,22 @@ function SettingsContent() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="lg" sx={{ mt: 11, mb: 11 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
               <Grid item xs={4} md={3} lg={2.5}>
                 <Paper
                   sx={{
-                    p: 2,
+                    pl: 50,
+                    pt: 5,
                     display: "flex",
                     flexDirection: "column",
-                    height: 140,
+                    height: 800,
+                    width: 1000,
                     backgroundColor: "#FAF9F6"
                   }}
                 >
-                  <HelloSettings />
+                  <AccountSettings />
                 </Paper>
               </Grid>
             </Grid>
