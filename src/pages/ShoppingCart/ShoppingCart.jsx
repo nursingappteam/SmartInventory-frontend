@@ -28,7 +28,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   mainListItems
 } from "../../components/sidebarList";
-import HelloCart from "./HelloShoppingCart";
+import ShoppingCartMain from "./HelloShoppingCart";
 
 
 
@@ -179,8 +179,8 @@ function ShoppingCartContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
-              <Grid item xs={4} md={3} lg={2.5}>
-                <Paper
+              <Grid item xs={12} md={12} lg={12}>
+                {/* <Paper
                   sx={{
                     p: 2,
                     display: "flex",
@@ -188,9 +188,9 @@ function ShoppingCartContent() {
                     height: 140,
                     backgroundColor: "#FAF9F6"
                   }}
-                >
-                  <HelloCart />
-                </Paper>
+                > */}
+                  <ShoppingCartMain />
+                {/* </Paper> */}
               </Grid>
             </Grid>
           </Container>
