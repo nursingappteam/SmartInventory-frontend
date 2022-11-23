@@ -28,11 +28,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   mainListItems
 } from "../../components/sidebarList";
-import HelloSearch from "./HelloSearch";
+import SearchMain from "./HelloSearch";
 
 
 const drawerWidth = 240;
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open"
 })(({ theme, open }) => ({
@@ -179,8 +178,8 @@ function SearchContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
-              <Grid item xs={4} md={3} lg={2.5}>
-                <Paper
+              <Grid item xs={15} md={15} lg={15}>
+                {/* <Paper
                   sx={{
                     p: 2,
                     display: "flex",
@@ -188,9 +187,9 @@ function SearchContent() {
                     height: 140,
                     backgroundColor: "#FAF9F6"
                   }}
-                >
-                  <HelloSearch />
-                </Paper>
+                > */}
+                  <SearchMain />
+                {/* </Paper> */}
               </Grid>
             </Grid>
           </Container>
