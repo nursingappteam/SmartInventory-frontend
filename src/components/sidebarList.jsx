@@ -15,7 +15,7 @@ import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
 export const mainListItems = (
   <React.Fragment>
     {/* SideBar Dashboard */}
-    <ListItemButton>
+    <ListItemButton href="/dashboard" variant="contained">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
