@@ -40,7 +40,7 @@ export const mainListItems = (
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
-      <ListItemText primary="Settings" />
+      <ListItemText primary="Account Settings" />
     </ListItemButton>
   </React.Fragment>
 );
