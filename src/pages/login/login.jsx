@@ -76,10 +76,10 @@ const NormalLoginForm = () => {
             </Form.Item>
           </div>
           <img
+            className="img"
             src={
               "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"
             }
-            className="img"
           />
         </div>
         <div className="login-form-container">
@@ -94,13 +94,13 @@ const NormalLoginForm = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
+                message: "Please input your Username/Email!",
               },
             ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
+              placeholder="Username/Email"
             />
           </Form.Item>
           <Form.Item

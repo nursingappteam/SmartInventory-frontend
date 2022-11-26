@@ -1,0 +1,8 @@
+{
+    "data": [
+        {"id": "1","custDeptDesc": "SMART Hospital & Simulation","acquisitDate": "7/19/2005","tagNum": "084968","tagged": "yes","type":"Patient Simulator","subtype": "Infant-High Fidelity","description": "LAERDAL SIMBABY INFANT SIMULATOR  246-00050 (SimBaby #1)","serialID":"245280500173","acquisitCost":28980,"company":"Laderal","poID":"0","location":"586-132","sublocation":"","building":"Smart Hospital Clinic/Rsch Lab"},
+        {"id": "2","custDeptDesc": "SMART Hospital & Simulation","acquisitDate": "8/31/2006","tagNum": "87106","tagged": "yes","type":"Electronics","subtype": "Projector","description": "PROJECTOR, NEC XGA 3500LU, NP1000","serialID":"66B0594FE","acquisitCost":5000.82,"company":"","poID":"0","location":"629-530B","sublocation":"","building":"University Hall"},
+        {"id": "3","custDeptDesc": "Active Non Asset","acquisitDate": "","tagNum": "","tagged": "","type":"Patient Simulator","subtype": "Low Fidelity","description": "GERI KERI NURSING SKILLS MANIKIN 1","serialID":"","acquisitCost":"","company":"","poID":"","location":"629-530A","sublocation":"","building":"University Hall"},
+        {"id": "4","custDeptDesc": "Active Non Asset","acquisitDate": "","tagNum": "","tagged": "no","type":"Task Trainer","subtype": "Skills Trainer - Arm","description": "BLOOD PRESSURE TRAINING ARM #10 (375-40501)","serialID":"","acquisitCost":885.61,"company":"Laerdal","poID":"","location":"629-530A","sublocation":"","building":"University Hall"}
+    ]
+}
