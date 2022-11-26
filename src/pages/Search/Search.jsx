@@ -178,18 +178,18 @@ function SearchContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
-              <Grid item xs={15} md={15} lg={15}>
-                {/* <Paper
+              <Grid item xs={25} md={25} lg={25}>
+                <Paper
                   sx={{
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 140,
-                    backgroundColor: "#FAF9F6"
+                    height: 800,
+                    backgroundColor: "#FFFFFF"
                   }}
-                > */}
+                >
                   <SearchMain />
-                {/* </Paper> */}
+                </Paper>
               </Grid>
             </Grid>
           </Container>
