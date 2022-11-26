@@ -180,13 +180,13 @@ function SearchContent() {
               {/* Welcome Card */}
               <Grid item xs={25} md={25} lg={25}>
                 <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 800,
-                    backgroundColor: "#FFFFFF"
-                  }}
+                  // sx={{
+                  //   p: 2,
+                  //   display: "flex",
+                  //   flexDirection: "column",
+                  //   height: 800,
+                  //   backgroundColor: "#FFFFFF"
+                  // }}
                 >
                   <SearchMain />
                 </Paper>
