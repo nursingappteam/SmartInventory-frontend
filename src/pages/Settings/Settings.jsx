@@ -179,7 +179,7 @@ function SettingsContent() {
           <Container maxWidth="lg" sx={{ mt: 11, mb: 11 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
-              <Grid item xs={4} md={3} lg={2.5}>
+              <Grid item xs={12} md={12} lg={12}>
                 <Paper
                   sx={{
                     pl: 50,
