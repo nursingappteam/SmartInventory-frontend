@@ -8,15 +8,14 @@
     border-radius: 3px;
     cursor: pointer;
     font-size: 17px;
-  }
-  
-  .checkoutButton:hover {
+    }
+
+.checkoutButton:hover {
     background-color: #45a049;
-  }
+    }
 
 
-  
-  
-  .delete:hover {
+
+.delete:hover {
     color: #ce3c3c;
-  }
+    }
