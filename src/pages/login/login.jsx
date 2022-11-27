@@ -43,6 +43,7 @@ const NormalLoginForm = () => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
+          sessionStorage.setItem("user_type_id", response.data.user_type_id);
           toDashboard();
         }
       })

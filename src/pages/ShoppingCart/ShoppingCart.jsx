@@ -25,34 +25,30 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // ----------------------------------------------------------------
 // Imports for the page
-import {
-  mainListItems
-} from "../../components/sidebarList";
+import { mainListItems } from "../../components/sidebarList";
 import ShoppingCartMain from "./HelloShoppingCart";
-
-
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   "& .MuiDrawer-paper": {
     position: "relative",
@@ -60,41 +56,41 @@ const Drawer = styled(MuiDrawer, {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
+      duration: theme.transitions.duration.enteringScreen,
     }),
     boxSizing: "border-box",
     ...(!open && {
       overflowX: "hidden",
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
+        duration: theme.transitions.duration.leavingScreen,
       }),
       width: theme.spacing(7),
       [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9)
-      }
-    })
-  }
+        width: theme.spacing(9),
+      },
+    }),
+  },
 }));
 
 const mdTheme = createTheme({
   palette: {
     primary: {
-      main: "#0064B1"
+      main: "#0064B1",
     },
     secondary: {
-      main: "#F58025"
+      main: "#F58025",
     },
     background: {
       default: "#000",
-      paper: "#F58025"
+      paper: "#F58025",
     },
     type: "dark",
     text: {
       primary: "#000000",
-      secondary: "#000000"
-    }
-  }
+      secondary: "#000000",
+    },
+  },
 });
 
 function ShoppingCartContent() {
@@ -110,7 +106,7 @@ function ShoppingCartContent() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px" // keep right padding when drawer closed
+              pr: "24px", // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -120,13 +116,20 @@ function ShoppingCartContent() {
               onClick={toggleDrawer}
               sx={{
                 marginRight: "36px",
-                ...(open && { display: "none" })
+                ...(open && { display: "none" }),
               }}
             >
               <MenuIcon />
             </IconButton>
             <Card sx={{ bgcolor: "primary.main", borderColor: "primary.main" }}>
-              <CardMedia component="img" height="80" image={"https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_small.png?v=1667866685214"} alt="logo" />
+              <CardMedia
+                component="img"
+                height="80"
+                image={
+                  "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo_small.png?v=1667866685214"
+                }
+                alt="logo"
+              />
             </Card>
             <Typography
               component="h1"
@@ -135,14 +138,6 @@ function ShoppingCartContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             ></Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit" sx={{ pl: 2 }}>
-              <LogoutIcon />
-            </IconButton>
           </Toolbar>
         </AppBar>
         {/* Side Nav Bar */}
@@ -152,7 +147,7 @@ function ShoppingCartContent() {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              px: [1]
+              px: [1],
             }}
           >
             <IconButton onClick={toggleDrawer}>
@@ -172,7 +167,7 @@ function ShoppingCartContent() {
             backgroundColor: "#F7E7CE",
             flexGrow: 1,
             height: "100vh",
-            overflow: "auto"
+            overflow: "auto",
           }}
         >
           <Toolbar />
@@ -189,7 +184,7 @@ function ShoppingCartContent() {
                     backgroundColor: "#FAF9F6"
                   }}
                 > */}
-                  <ShoppingCartMain />
+                <ShoppingCartMain />
                 {/* </Paper> */}
               </Grid>
             </Grid>

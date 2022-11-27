@@ -15,27 +15,28 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
+import axios from "axios";
 
 import "./styles.css";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 export default function Chart() {
-
   let emptyProduct = {
-    id: null,
-    custDeptDesc: "",
-    acquisitDate: "",
-    tagNum: "",
+    asset_id: null,
+    cust_dept_desc: "",
+    acquisition_date: "",
+    tag_num: "",
     tagged: "",
     type: "",
-    subtype: "",
+    sub_type: "",
     description: "",
-    serialID: "",
-    acquisitCost: 0,
+    serial_id: "",
+    acquisition_cost: 0,
     company: "",
-    poID: "",
+    PO_IDS: "",
     location: "",
-    sublocation: "", 
-    building: ""
+    sub_location: "",
+    building: "",
   };
 
   const [products, setProducts] = useState(null);
@@ -50,51 +51,75 @@ export default function Chart() {
   const dt = useRef(null);
   const productService = new ProductService();
 
+  // get data from db TODO: Check for surplused Items
+  const getProductData = async () => {
+    const request_url = `https://smartinventory-backend.glitch.me/assets/display_assets`;
+
+    const options = {
+      method: "GET",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          setProducts(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // -------------------------------------------------------------------------------------------
   useEffect(() => {
-    productService.getProducts().then((data) => setProducts(data));
+    getProductData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const openNew = () => {
     setProduct(emptyProduct);
     setSubmitted(false);
     setProductDialog(true);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const hideDialog = () => {
     setSubmitted(false);
     setProductDialog(false);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const hideDeleteProductDialog = () => {
     setDeleteProductDialog(false);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const hideDeleteProductsDialog = () => {
     setDeleteProductsDialog(false);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const saveProduct = () => {
     setSubmitted(true);
     if (product.type.trim()) {
       let _products = [...products];
       let _product = { ...product };
-      if (product.id) {
-        const index = findIndexById(product.id);
+      if (product.asset_id) {
+        const index = findIndexById(product.asset_id);
         _products[index] = _product;
         toast.current.show({
           severity: "success",
           summary: "Successful",
           detail: "Product Updated",
-          life: 3000
+          life: 3000,
         });
       } else {
-        _product.id = createId();
+        _product.asset_id = createId();
         _products.push(_product);
         toast.current.show({
           severity: "success",
           summary: "Successful",
           detail: "Product Created",
-          life: 3000
+          life: 3000,
         });
       }
       setProducts(_products);
@@ -102,19 +127,19 @@ export default function Chart() {
       setProduct(emptyProduct);
     }
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const editProduct = (product) => {
     setProduct({ ...product });
     setProductDialog(true);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const confirmDeleteProduct = (product) => {
     setProduct(product);
     setDeleteProductDialog(true);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const deleteProduct = () => {
-    let _products = products.filter((val) => val.id !== product.id);
+    let _products = products.filter((val) => val.asset_id !== product.asset_id);
     setProducts(_products);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
@@ -122,21 +147,21 @@ export default function Chart() {
       severity: "success",
       summary: "Successful",
       detail: "Product Deleted",
-      life: 3000
+      life: 3000,
     });
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const findIndexById = (id) => {
     let index = -1;
     for (let i = 0; i < products.length; i++) {
-      if (products[i].id === id) {
+      if (products[i].asset_id === id) {
         index = i;
         break;
       }
     }
     return index;
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const createId = () => {
     let id = "";
     let chars =
@@ -146,11 +171,11 @@ export default function Chart() {
     }
     return id;
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const confirmDeleteSelected = () => {
     setDeleteProductsDialog(true);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
@@ -160,10 +185,10 @@ export default function Chart() {
       severity: "success",
       summary: "Successful",
       detail: "Products Deleted",
-      life: 3000
+      life: 3000,
     });
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || "";
     let _product = { ...product };
@@ -171,7 +196,7 @@ export default function Chart() {
 
     setProduct(_product);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const onInputNumberChange = (e, name) => {
     const val = e.value || 0;
     let _product = { ...product };
@@ -179,7 +204,7 @@ export default function Chart() {
 
     setProduct(_product);
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   // New and Delete button on the upper left portion of the table
   const leftToolbarTemplate = () => {
     return (
@@ -200,7 +225,7 @@ export default function Chart() {
       </React.Fragment>
     );
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   // Edit && Delete Button on the right hand side of each table row
   const actionBodyTemplate = (rowData) => {
     return (
@@ -218,7 +243,7 @@ export default function Chart() {
       </React.Fragment>
     );
   };
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const header = (
     <div className="table-header">
       <h5 className="mx-0 my-1">Manage Products</h5>
@@ -232,7 +257,7 @@ export default function Chart() {
       </span>
     </div>
   );
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const productDialogFooter = (
     <React.Fragment>
       <Button
@@ -249,7 +274,7 @@ export default function Chart() {
       />
     </React.Fragment>
   );
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const deleteProductDialogFooter = (
     <React.Fragment>
       <Button
@@ -266,7 +291,7 @@ export default function Chart() {
       />
     </React.Fragment>
   );
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const deleteProductsDialogFooter = (
     <React.Fragment>
       <Button
@@ -283,7 +308,7 @@ export default function Chart() {
       />
     </React.Fragment>
   );
-// -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   return (
     <div className="searchPageAdmin">
       <Toast ref={toast} />
@@ -291,10 +316,9 @@ export default function Chart() {
       <div className="card">
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Creation of the top toolbar of the table (Add and Delete button) */}
-        <Toolbar
-          className="mb-4"
-          left={leftToolbarTemplate}
-        ></Toolbar>
+        {sessionStorage.getItem("user_type_id") == 1 && (
+          <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
+        )}
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Creation of the Data Table */}
         <DataTable
@@ -302,7 +326,7 @@ export default function Chart() {
           value={products}
           selection={selectedProducts}
           onSelectionChange={(e) => setSelectedProducts(e.value)}
-          dataKey="id"
+          dataKey="asset_id"
           paginator
           rows={10}
           rowsPerPageOptions={[5, 10, 25]}
@@ -330,13 +354,13 @@ export default function Chart() {
             style={{ minWidth: "16rem" }}
           ></Column>
           <Column
-            field="subtype"
+            field="sub_type"
             header="Sub Type"
             sortable
             style={{ minWidth: "16rem" }}
           ></Column>
           <Column
-            field="tagNum"
+            field="tag_num"
             header="Tag Number"
             sortable
             style={{ minWidth: "8rem" }}
@@ -368,18 +392,22 @@ export default function Chart() {
               id="type"
               value={product.type}
               onChange={(e) => onInputChange(e, "type")}
-              className={classNames({ "p-invalid": submitted && !product.type })}
+              className={classNames({
+                "p-invalid": submitted && !product.type,
+              })}
             />
           </div>
           {/* // ------------------------------------------------------------------------------------------- */}
           {/* // Sub Type Entry */}
           <div className="field col">
-            <label htmlFor="subtype">Sub Type</label>
+            <label htmlFor="sub_type">Sub Type</label>
             <InputText
-              id="subtype"
-              value={product.subtype}
-              onChange={(e) => onInputChange(e, "subtype")}
-              className={classNames({ "p-invalid": submitted && !product.subtype })}
+              id="sub_type"
+              value={product.sub_type}
+              onChange={(e) => onInputChange(e, "sub_type")}
+              className={classNames({
+                "p-invalid": submitted && !product.sub_type,
+              })}
             />
           </div>
         </div>
@@ -391,7 +419,9 @@ export default function Chart() {
             id="description"
             value={product.description}
             onChange={(e) => onInputChange(e, "description")}
-            className={classNames({ "p-invalid": submitted && !product.subtype })}
+            className={classNames({
+              "p-invalid": submitted && !product.description,
+            })}
             rows={3}
             cols={20}
           />
@@ -399,24 +429,28 @@ export default function Chart() {
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Tag Number Entry */}
         <div className="field">
-            <label htmlFor="tagNum">Tag Number</label>
-            <InputText
-              id="tagNum"
-              value={product.tagNum}
-              onChange={(e) => onInputChange(e, "tagNum")}
-              className={classNames({ "p-invalid": submitted && !product.tagNum })}
-            />
+          <label htmlFor="tag_num">Tag Number</label>
+          <InputText
+            id="tag_num"
+            value={product.tag_num}
+            onChange={(e) => onInputChange(e, "tag_num")}
+            className={classNames({
+              "p-invalid": submitted && !product.tag_num,
+            })}
+          />
         </div>
         <div className="formgrid grid">
           {/* // ------------------------------------------------------------------------------------------- */}
           {/* // Acquisition Cost Entry */}
           <div className="field col">
-            <label htmlFor="acquisitCost">Acquisition Cost</label>
+            <label htmlFor="acquisition_cost">Acquisition Cost</label>
             <InputNumber
-              id="acquisitCost"
-              value={product.acquisitCost}
-              onValueChange={(e) => onInputNumberChange(e, "acquisitCost")}
-              className={classNames({ "p-invalid": submitted && !product.acquisitCost })}
+              id="acquisition_cost"
+              value={product.acquisition_cost}
+              onValueChange={(e) => onInputNumberChange(e, "acquisition_cost")}
+              className={classNames({
+                "p-invalid": submitted && !product.acquisition_cost,
+              })}
               mode="currency"
               currency="USD"
               locale="en-US"
@@ -425,12 +459,14 @@ export default function Chart() {
           {/* // ------------------------------------------------------------------------------------------- */}
           {/* // Acquisition Date Entry */}
           <div className="field col">
-            <label htmlFor="acquisitDate">Acquisition Date</label>
-            <InputText 
-              id="acquisitDate"
-              value={product.acquisitDate} 
-              onChange={(e) => onInputChange(e, "acquisitDate")}
-              className={classNames({ "p-invalid": submitted && !product.acquisitDate })}
+            <label htmlFor="acquisition_date">Acquisition Date</label>
+            <InputText
+              id="acquisition_date"
+              value={product.acquisition_date}
+              onChange={(e) => onInputChange(e, "acquisition_date")}
+              className={classNames({
+                "p-invalid": submitted && !product.acquisition_date,
+              })}
               keyfilter={/^[^#<>a-zA-Z,*!]+$/}
               placeholder="mm/dd/yyyy"
             />
@@ -445,31 +481,37 @@ export default function Chart() {
               id="location"
               value={product.location}
               onChange={(e) => onInputChange(e, "location")}
-              className={classNames({ "p-invalid": submitted && !product.location })}
+              className={classNames({
+                "p-invalid": submitted && !product.location,
+              })}
             />
           </div>
           {/* // ------------------------------------------------------------------------------------------- */}
           {/* // Sub Location Entry */}
           <div className="field col">
-            <label htmlFor="sublocation">Sub Location</label>
-            <InputText 
-              id="sublocation"
-              value={product.sublocation} 
-              onChange={(e) => onInputChange(e, "sublocation")}
-              className={classNames({ "p-invalid": submitted && !product.sublocation })}
+            <label htmlFor="sub_location">Sub Location</label>
+            <InputText
+              id="sub_location"
+              value={product.sub_location}
+              onChange={(e) => onInputChange(e, "sub_location")}
+              className={classNames({
+                "p-invalid": submitted && !product.sub_location,
+              })}
             />
           </div>
         </div>
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Serial ID Entry */}
         <div className="field">
-            <label htmlFor="serialID">Serial ID</label>
-            <InputText
-              id="serialID"
-              value={product.serialID}
-              onChange={(e) => onInputChange(e, "serialID")}
-              className={classNames({ "p-invalid": submitted && !product.serialID })}
-            />
+          <label htmlFor="serial_id">Serial ID</label>
+          <InputText
+            id="serial_id"
+            value={product.serial_id}
+            onChange={(e) => onInputChange(e, "serial_id")}
+            className={classNames({
+              "p-invalid": submitted && !product.serial_id,
+            })}
+          />
         </div>
         <div className="formgrid grid">
           {/* // ------------------------------------------------------------------------------------------- */}
@@ -480,31 +522,37 @@ export default function Chart() {
               id="company"
               value={product.company}
               onChange={(e) => onInputChange(e, "company")}
-              className={classNames({ "p-invalid": submitted && !product.company })}
+              className={classNames({
+                "p-invalid": submitted && !product.company,
+              })}
             />
           </div>
           {/* // ------------------------------------------------------------------------------------------- */}
           {/* // PO ID(s) Entry */}
           <div className="field col">
-            <label htmlFor="poID">PO ID(s)</label>
-            <InputText 
-              id="poID"
-              value={product.poID} 
-              onChange={(e) => onInputChange(e, "poID")}
-              className={classNames({ "p-invalid": submitted && !product.poID })}
+            <label htmlFor="PO_IDS">PO ID(s)</label>
+            <InputText
+              id="PO_IDS"
+              value={product.PO_IDS}
+              onChange={(e) => onInputChange(e, "PO_IDS")}
+              className={classNames({
+                "p-invalid": submitted && !product.PO_IDS,
+              })}
             />
           </div>
         </div>
         {/* // ------------------------------------------------------------------------------------------- */}
-          {/* // Building Entry */}
+        {/* // Building Entry */}
         <div className="field">
-            <label htmlFor="building">Building</label>
-            <InputText
-              id="building"
-              value={product.building}
-              onChange={(e) => onInputChange(e, "building")}
-              className={classNames({ "p-invalid": submitted && !product.building })}
-            />
+          <label htmlFor="building">Building</label>
+          <InputText
+            id="building"
+            value={product.building}
+            onChange={(e) => onInputChange(e, "building")}
+            className={classNames({
+              "p-invalid": submitted && !product.building,
+            })}
+          />
         </div>
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
