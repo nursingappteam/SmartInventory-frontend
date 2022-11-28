@@ -7,10 +7,12 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
+import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import RemoveIcon from "@mui/icons-material/Remove";
 import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
+import { Badge } from "@mui/material";
 
 export const mainListItems = (
   <React.Fragment>
@@ -24,7 +26,9 @@ export const mainListItems = (
     {/* SideBar Shopping Cart */}
     <ListItemButton href="/shoppingcart" variant="contained">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <Badge badgeContent={sessionStorage.getItem("checkoutCount")}>
+          <ShoppingCartIcon />
+        </Badge>
       </ListItemIcon>
       <ListItemText primary="Shopping Cart" />
     </ListItemButton>
@@ -41,6 +45,13 @@ export const mainListItems = (
         <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Account Settings" />
+    </ListItemButton>
+    {/* Logout */}
+    <ListItemButton href="/" variant="contained" onClick={sessionStorage.clear}>
+      <ListItemIcon>
+        <LogoutIcon />
+      </ListItemIcon>
+      <ListItemText primary="Logout" />
     </ListItemButton>
   </React.Fragment>
 );
