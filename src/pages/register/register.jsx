@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
+import useAccessToken from "../../components/useAccessToken";
 import "./register.css";
 import {
   Form,
@@ -15,6 +16,7 @@ import {
   AutoComplete,
 } from "antd";
 import axios from "axios";
+import { useState } from "react";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const { Option } = Select;
@@ -45,7 +47,14 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { autoCompleteResult } = this.state;
-    const { navigation } = this.props;
+    const { setAccessToken } = this.props;
+    //const { navigation } = this.props;
+    // return to login
+    const toLog = () => {
+      var data = { accessToken: 0 };
+      setAccessToken(data);
+    };
+
     const onFinish = async (values) => {
       const request_url =
         "https://smartinventory-backend.glitch.me/users/newUser";
@@ -73,7 +82,7 @@ class RegistrationForm extends React.Component {
         .then((response) => {
           if (response.status === 201) {
             //alert("Account Created");
-            navigation("/");
+            toLog();
           }
         })
         .catch((error) => {
@@ -202,7 +211,8 @@ class RegistrationForm extends React.Component {
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
               Register
-            </Button>
+            </Button>{" "}
+            or <a onClick={toLog}>Return to Login</a>
           </Form.Item>
         </div>
       </Form>
@@ -211,9 +221,10 @@ class RegistrationForm extends React.Component {
 }
 
 export default function (props) {
-  const navigation = useNavigate();
+  //const navigation = useNavigate();
+  //const { accessToken, setAccessToken } = useAccessToken();
 
-  return <RegistrationForm {...props} navigation={navigation} />;
+  return <RegistrationForm {...props} setAccessToken={props.setAccessToken} />;
 }
 
 //export default RegistrationForm;

@@ -8,17 +8,22 @@ import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-const NormalLoginForm = () => {
-  // moving to register page
-  const navigate = useNavigate();
+const NormalLoginForm = ({ setAccessToken }) => {
+  // move to registration page
+  const toReg = () => {
+    var data = { accessToken: 1 };
+    setAccessToken(data);
+  };
+  //const navigate = useNavigate();
 
-  const toRegister = () => {
+  /* const toRegister = () => {
     navigate("/register");
   };
 
   const toDashboard = () => {
     navigate("/Dashboard");
-  };
+  }; */
+
   // logic for Login
   let onFinish = async (values) => {
     const request_url =
@@ -44,7 +49,8 @@ const NormalLoginForm = () => {
       .then((response) => {
         if (response.status === 200) {
           sessionStorage.setItem("user_type_id", response.data.user_type_id);
-          toDashboard();
+          // assign an access token to allow user to pass
+          setAccessToken({ accessToken: 5 });
         }
       })
       .catch((error) => {
@@ -69,7 +75,7 @@ const NormalLoginForm = () => {
             <Form.Item>
               <Button
                 type="button"
-                onClick={toRegister}
+                onClick={toReg}
                 className="login-form-signup-button"
               >
                 Sign Up

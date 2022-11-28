@@ -17,7 +17,7 @@ import { Badge } from "@mui/material";
 export const mainListItems = (
   <React.Fragment>
     {/* SideBar Dashboard */}
-    <ListItemButton href="/dashboard" variant="contained">
+    <ListItemButton href="/" variant="contained">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>

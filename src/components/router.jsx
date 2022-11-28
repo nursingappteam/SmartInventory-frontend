@@ -9,11 +9,11 @@ import Search from "../pages/Search/Search.jsx";
 
 export default () => (
   <Routes>
-    <Route path="/" element={<Login />} />
+    {/* <Route path="/" element={<Login />} />
 
-    <Route path="/register" element={<Register />} />
+    <Route path="/register" element={<Register />} /> */}
 
-    <Route path="/Dashboard" element={<Dashboard />} />
+    <Route path="/" element={<Dashboard />} />
 
     <Route path="/ShoppingCart" element={<ShoppingCart />} />
 
