@@ -47,7 +47,11 @@ export const mainListItems = (
       <ListItemText primary="Account Settings" />
     </ListItemButton>
     {/* Logout */}
-    <ListItemButton href="/" variant="contained" onClick={sessionStorage.clear}>
+    <ListItemButton
+      href="/"
+      variant="contained"
+      onClick={() => sessionStorage.clear()}
+    >
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
