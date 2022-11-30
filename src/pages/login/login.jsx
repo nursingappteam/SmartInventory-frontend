@@ -16,6 +16,10 @@ const NormalLoginForm = () => {
     navigate("/register");
   };
 
+  const toForgetPassword = () =>{
+    navigate("/ForgetPassword");
+  }
+
   const toDashboard = () => {
     navigate("/Dashboard");
   };
@@ -129,7 +133,7 @@ const NormalLoginForm = () => {
               Log in
             </Button>
           </Form.Item>
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="" onClick={toForgetPassword} >
             Forgot password?
           </a>
         </div>
