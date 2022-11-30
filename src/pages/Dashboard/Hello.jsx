@@ -7,7 +7,7 @@ var date = moment().format("MMM DD,YYYY");
 export default function Chart() {
   return (
     <React.Fragment>
-      <Title>Welcome Jacquelyn!</Title>
+      <Title>Welcome {sessionStorage.getItem("user_name")}!</Title>
       <p> {date}</p>
     </React.Fragment>
   );

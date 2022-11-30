@@ -56,8 +56,7 @@ class RegistrationForm extends React.Component {
     };
 
     const onFinish = async (values) => {
-      const request_url =
-        "https://smartinventory-backend.glitch.me/users/newUser";
+      const request_url = "/users/newUser";
       const { name, username, password } = values;
 
       // axios post options
@@ -72,7 +71,7 @@ class RegistrationForm extends React.Component {
           user_email: username,
           password,
           // regular user
-          user_type: 1,
+          user_type: 0,
         },
         url: request_url,
       };

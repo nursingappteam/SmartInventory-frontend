@@ -53,7 +53,7 @@ export default function Chart() {
 
   // get data from db TODO: Check for surplused Items
   const getProductData = async () => {
-    const request_url = `https://smartinventory-backend.glitch.me/assets/display_assets`;
+    const request_url = `/assets/display_assets`;
 
     const options = {
       method: "GET",
@@ -73,6 +73,10 @@ export default function Chart() {
       .catch((err) => {
         console.log(err);
       });
+  };
+  // add new item
+  const newProduct = (values) => {
+    let request_url = "";
   };
   // -------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -104,6 +108,7 @@ export default function Chart() {
       let _products = [...products];
       let _product = { ...product };
       if (product.asset_id) {
+        // console.log("product exists"); ADD UPDATING ITEM IN DB````````````````````````````````````````````````````````TODO:
         const index = findIndexById(product.asset_id);
         _products[index] = _product;
         toast.current.show({
@@ -113,6 +118,7 @@ export default function Chart() {
           life: 3000,
         });
       } else {
+        // console.log("product new"); ADD ADDING ITEM TO DB ````````````````````````````````````````````````````
         _product.asset_id = createId();
         _products.push(_product);
         toast.current.show({

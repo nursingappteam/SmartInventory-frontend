@@ -26,8 +26,7 @@ const NormalLoginForm = ({ setAccessToken }) => {
 
   // logic for Login
   let onFinish = async (values) => {
-    const request_url =
-      "https://smartinventory-backend.glitch.me/users/validateUser";
+    const request_url = "/users/validateUser";
     const { username, password } = values;
 
     //axios request options
@@ -49,6 +48,8 @@ const NormalLoginForm = ({ setAccessToken }) => {
       .then((response) => {
         if (response.status === 200) {
           sessionStorage.setItem("user_type_id", response.data.user_type_id);
+          sessionStorage.setItem("user_id", response.data.user_id);
+          sessionStorage.setItem("user_name", response.data.user_name);
           // assign an access token to allow user to pass
           setAccessToken({ accessToken: 5 });
         }
