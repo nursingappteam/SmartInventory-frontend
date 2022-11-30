@@ -11,18 +11,15 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import LogoutIcon from "@mui/icons-material/Logout";
 // ----------------------------------------------------------------
 // Sidebar Navigator Icons
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // ----------------------------------------------------------------
 // Imports for the page
 import { mainListItems } from "../../components/sidebarList";
@@ -83,7 +80,7 @@ const mdTheme = createTheme({
     },
     background: {
       default: "#000",
-      paper: "#F58025",
+      paper: "#808080",
     },
     type: "dark",
     text: {
@@ -94,7 +91,7 @@ const mdTheme = createTheme({
 });
 
 function SearchContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -164,7 +161,7 @@ function SearchContent() {
         <Box
           component="main"
           sx={{
-            backgroundColor: "#F7E7CE",
+            backgroundColor: "#e1e8f0",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",

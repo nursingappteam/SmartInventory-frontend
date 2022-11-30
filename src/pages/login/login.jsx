@@ -68,9 +68,10 @@ const NormalLoginForm = () => {
             Sign up and take advantage of UTA's Nursing Department inventory.
             <Form.Item>
               <Button
-                type="button"
+                type="primary"
                 onClick={toRegister}
                 className="login-form-signup-button"
+                size="large"
               >
                 Sign Up
               </Button>
