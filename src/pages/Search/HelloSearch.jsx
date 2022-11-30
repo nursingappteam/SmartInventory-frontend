@@ -74,9 +74,59 @@ export default function Chart() {
         console.log(err);
       });
   };
-  // add new item
-  const newProduct = (values) => {
-    let request_url = "";
+
+  // update Asset
+  const updateProduct = async (values) => {
+    let request_url = "/assets/update";
+
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        values,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("product updated");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // add new Asset
+  const addProduct = async (values) => {
+    let request_url = "/assets/add";
+
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        values,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("product added");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   // -------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -109,8 +159,10 @@ export default function Chart() {
       let _product = { ...product };
       if (product.asset_id) {
         // console.log("product exists"); ADD UPDATING ITEM IN DB````````````````````````````````````````````````````````TODO:
-        const index = findIndexById(product.asset_id);
-        _products[index] = _product;
+        /* const index = findIndexById(product.asset_id);
+        _products[index] = _product; */
+        console.log(product);
+        updateProduct(product);
         toast.current.show({
           severity: "success",
           summary: "Successful",
@@ -118,9 +170,9 @@ export default function Chart() {
           life: 3000,
         });
       } else {
-        // console.log("product new"); ADD ADDING ITEM TO DB ````````````````````````````````````````````````````
-        _product.asset_id = createId();
-        _products.push(_product);
+        /* _product.asset_id = createId();
+        _products.push(_product); */
+        addProduct(product);
         toast.current.show({
           severity: "success",
           summary: "Successful",
@@ -145,6 +197,7 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   const deleteProduct = () => {
+    //TODO: make add to checkout button with request
     let _products = products.filter((val) => val.asset_id !== product.asset_id);
     setProducts(_products);
     setDeleteProductDialog(false);
@@ -183,6 +236,7 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
+    //TODO: make delete Selected Items
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setDeleteProductsDialog(false);
@@ -322,7 +376,7 @@ export default function Chart() {
       <div className="card">
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Creation of the top toolbar of the table (Add and Delete button) */}
-        {sessionStorage.getItem("user_type_id") == 1 && (
+        {sessionStorage.getItem("user_type_id") == 2 && (
           <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
         )}
         {/* // ------------------------------------------------------------------------------------------- */}

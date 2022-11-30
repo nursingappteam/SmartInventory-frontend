@@ -14,7 +14,9 @@ function App() {
   if (accessToken == 1) {
     return <Register setAccessToken={setAccessToken} />;
   } else if (accessToken == 2) {
-    //return <Register setAccessToken={setAccessToken} />;
+    return <Register setAccessToken={setAccessToken} />;
+  } else if (accessToken == 3) {
+    return <ForgotPassword setAccessToken={setAccessToken} />;
   } else if (!accessToken || accessToken == 0) {
     return <Login setAccessToken={setAccessToken} />;
   }

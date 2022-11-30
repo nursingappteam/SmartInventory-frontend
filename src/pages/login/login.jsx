@@ -14,6 +14,11 @@ const NormalLoginForm = ({ setAccessToken }) => {
     var data = { accessToken: 1 };
     setAccessToken(data);
   };
+
+  const toForgetPassword = () => {
+    var data = { accessToken: 3 };
+    setAccessToken(data);
+  };
   //const navigate = useNavigate();
 
   /* const toRegister = () => {
@@ -139,7 +144,7 @@ const NormalLoginForm = ({ setAccessToken }) => {
               Log in
             </Button>
           </Form.Item>
-          <a className="login-form-forgot" href="" onClick={toForgetPassword} >
+          <a className="login-form-forgot" href="" onClick={toForgetPassword}>
             Forgot password?
           </a>
         </div>

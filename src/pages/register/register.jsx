@@ -70,8 +70,8 @@ class RegistrationForm extends React.Component {
           username: name,
           user_email: username,
           password,
-          // regular user
-          user_type: 0,
+          // regular user: 1, Admin: 2
+          user_type: 1,
         },
         url: request_url,
       };
