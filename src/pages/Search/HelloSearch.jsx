@@ -37,7 +37,7 @@ export default function Chart() {
   };
   const [products, setProducts] = useState(null);
   const [productDialog, setProductDialog] = useState(false);
-  const [addProductDialog, setAddProductDialog] = useState(false);
+  const [addProductsDialog, setAddProductDialog] = useState(false);
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
   const [product, setProduct] = useState(emptyProduct);
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -82,12 +82,12 @@ export default function Chart() {
     setProductDialog(false);
   };
   // -------------------------------------------------------------------------------------------
-  const hideAddProductDialog = () => {
-    setAddProductDialog(false);
-  };
-  // -------------------------------------------------------------------------------------------
   const hideDeleteProductsDialog = () => {
     setDeleteProductsDialog(false);
+  };
+  // -------------------------------------------------------------------------------------------
+  const hideAddToCartProductsDialog = () => {
+    setAddProductDialog(false);
   };
   // -------------------------------------------------------------------------------------------
   // When user pressed the save option when you edit or add an new product from the dialog box
@@ -126,24 +126,6 @@ export default function Chart() {
     setProductDialog(true);
   };
   // -------------------------------------------------------------------------------------------
-  const addProduct = (product) => {
-    setProduct(product);
-    setAddProductDialog(true);
-  };
-  // -------------------------------------------------------------------------------------------
-  const addCartProduct = () => {
-    let _products = products.filter((val) => val.asset_id !== product.asset_id);
-    setProducts(_products);
-    setAddProductDialog(false);
-    setProduct(emptyProduct);
-    toast.current.show({
-      severity: "success",
-      summary: "Successful",
-      detail: "Product Added to Shopping Cart",
-      life: 3000,
-    });
-  };
-  // -------------------------------------------------------------------------------------------
   const findIndexById = (id) => {
     let index = -1;
     for (let i = 0; i < products.length; i++) {
@@ -169,6 +151,10 @@ export default function Chart() {
     setDeleteProductsDialog(true);
   };
   // -------------------------------------------------------------------------------------------
+  const confirmAddToCartSelected = () => {
+    setAddProductDialog(true);
+  };
+   // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
@@ -178,6 +164,19 @@ export default function Chart() {
       severity: "success",
       summary: "Successful",
       detail: "Products Deleted",
+      life: 3000,
+    });
+  };
+  // -------------------------------------------------------------------------------------------
+  const addSelectedToCartProducts = () => {
+    let _products = products.filter((val) => !selectedProducts.includes(val));
+    setProducts(_products);
+    setAddProductDialog(false);
+    setSelectedProducts(null);
+    toast.current.show({
+      severity: "success",
+      summary: "Successful",
+      detail: "Product Added to Shopping Cart",
       life: 3000,
     });
   };
@@ -212,10 +211,18 @@ export default function Chart() {
         <Button
           label="Delete"
           icon="pi pi-trash"
-          className="p-button-danger"
+          className="p-button-danger mr-2"
           onClick={confirmDeleteSelected}
           disabled={!selectedProducts || !selectedProducts.length}
           title="Remove from the Inventory"
+        />
+        <Button
+          label="Add to Cart"
+          icon="pi pi-shopping-cart"
+          className="p-button-warning"
+          onClick={confirmAddToCartSelected}
+          disabled={!selectedProducts || !selectedProducts.length}
+          title="Add to Shopping Cart"
         />
       </React.Fragment>
     );
@@ -230,12 +237,6 @@ export default function Chart() {
           className="p-button-rounded p-button-info mr-2"
           onClick={() => editProduct(rowData)}
           title="Edit/View Item"
-        />
-        <Button
-          icon="pi pi-shopping-cart"
-          className="p-button-rounded p-button-warning"
-          onClick={() => addProduct(rowData)}
-          title="Add to Shopping Cart"
         />
       </React.Fragment>
     );
@@ -277,14 +278,14 @@ export default function Chart() {
       <Button
         label="No"
         icon="pi pi-times"
-        className="noAddButton"
-        onClick={hideAddProductDialog}
+        className="noAddCartButton"
+        onClick={hideAddToCartProductsDialog}
       />
       <Button
         label="Yes"
         icon="pi pi-check"
-        className="yesAddButton"
-        onClick={addCartProduct}
+        className="yesAddCartButton"
+        onClick={addSelectedToCartProducts}
       />
     </React.Fragment>
   );
@@ -555,12 +556,12 @@ export default function Chart() {
       {/* // ------------------------------------------------------------------------------------------- */}
       {/* // Add an asset/non-asset to cart dialog menu for the add button on the right side of the row on the table */}
       <Dialog
-        visible={addProductDialog}
+        visible={addProductsDialog}
         style={{ width: "450px" }}
         header="Confirm"
         modal
         footer={addProductDialogFooter}
-        onHide={hideAddProductDialog}
+        onHide={hideAddToCartProductsDialog}
       >
         <div className="confirmation-content">
           <i
@@ -569,8 +570,7 @@ export default function Chart() {
           />
           {product && (
             <span>
-              Are you sure you want to add <b>{product.description}</b> to your Shopping Cart?
-            </span>
+              Are you sure you want to add the selected product(s) to your Shopping Cart?</span>
           )}
         </div>
       </Dialog>
