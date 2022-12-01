@@ -173,13 +173,13 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
-              <Grid item xs={4} md={3} lg={2.5}>
+              <Grid item lg={12}>
                 <Paper
                   sx={{
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 140,
+                    height: 200,
                     backgroundColor: "#FAF9F6",
                   }}
                 >
