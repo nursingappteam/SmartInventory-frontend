@@ -271,18 +271,10 @@ export default function Chart() {
         <Button
           label="Delete"
           icon="pi pi-trash"
-          className="p-button-danger mr-2"
+          className="p-button-danger ml-4"
           onClick={confirmDeleteSelected}
           disabled={!selectedProducts || !selectedProducts.length}
           title="Remove from the Inventory"
-        />
-        <Button
-          label="Add to Cart"
-          icon="pi pi-shopping-cart"
-          className="p-button-warning"
-          onClick={confirmAddToCartSelected}
-          disabled={!selectedProducts || !selectedProducts.length}
-          title="Add to Shopping Cart"
         />
       </React.Fragment>
     );
@@ -309,8 +301,17 @@ export default function Chart() {
         <i className="pi pi-search" />
         <InputText
           type="search"
+          size='60'
           onInput={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search..."
+        />
+        <Button
+          label="Add to Cart"
+          icon="pi pi-shopping-cart"
+          className="p-button-warning ml-8"
+          onClick={confirmAddToCartSelected}
+          disabled={!selectedProducts || !selectedProducts.length}
+          title="Add to Shopping Cart"
         />
       </span>
     </div>
