@@ -83,7 +83,7 @@ const mdTheme = createTheme({
     },
     background: {
       default: "#000",
-      paper: "#F58025",
+      paper: "#808080",
     },
     type: "dark",
     text: {
@@ -94,7 +94,7 @@ const mdTheme = createTheme({
 });
 
 function ShoppingCartContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -164,7 +164,7 @@ function ShoppingCartContent() {
         <Box
           component="main"
           sx={{
-            backgroundColor: "#F7E7CE",
+            backgroundColor: "#e1e8f0",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",

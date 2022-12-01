@@ -1,52 +1,11 @@
+/* The whole screen page style */
 .root {
   position: absolute;
   width: 100vw;
   height: 100vh;
 }
-.container {<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8" />
-      <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="theme-color" content="#F58025" />
-      <meta
-        name="description"
-        content="Web site created using create-react-app"
-      />
-      <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-      <!--
-        manifest.json provides metadata used when your web app is installed on a
-        user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-      -->
-      <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-      <!--
-        Notice the use of %PUBLIC_URL% in the tags above.
-        It will be replaced with the URL of the `public` folder during the build.
-        Only files inside the `public` folder can be referenced from the HTML.
-  
-        Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-        work correctly both with client-side routing and a non-root public URL.
-        Learn how to configure a non-root public URL by running `npm run build`.
-      -->
-      <title>React App</title>
-    </head>
-    <body>
-      <noscript>You need to enable JavaScript to run this app.</noscript>
-      <div id="root"></div>
-      <!--
-        This HTML file is a template.
-        If you open it directly in the browser, you will see an empty page.
-  
-        You can add webfonts, meta tags, or analytics to this file.
-        The build step will place the bundled scripts into the <body> tag.
-  
-        To begin the development, run `npm start` or `yarn start`.
-        To create a production bundle, use `npm run build` or `yarn build`.
-      -->
-    </body>
-  </html>
-  
+/* The whole screen page style */
+.container {
   font-family: sans-serif;
   text-align: center;
   background: #0064B1;
@@ -57,9 +16,9 @@
   height: 100vh;
   position: relative;
 }
+/* The container box style */
 .login-form {
   display: flex;
-
   background: #F7E7CE;
   width: 70%;
   height: 70%;
@@ -68,21 +27,32 @@
   border-radius: 35px;
   overflow: hidden;
 }
+/* Login side of the container box style */
 .login-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 120%;
 }
+/* SmartInventory logo style */
 .login-form-container > img {
   width: 80%;
   height: auto;
   margin-top: -20%; 
   background-size: contain;
 }
+/* UTA logo style */
+.login-sider > img {
+  width: 90%;
+  height: auto;
+  margin-top: -20%; 
+  background-size: contain;
+}
+/* Login side of container box header's style */
 .login-form-container > h1 {
   margin-top: 1%; 
 }
+/* Sign Up side of the container box style */
 .login-sider {
   width: 100%;
   background: #ffffff;
@@ -92,27 +62,25 @@
   align-items: center;
   justify-content: space-around;
 }
+/* Sign Up side of the container box header's style */
 .login-sider > h2 {
   position: relative;
   color: #F58025;
   font-size: 70px;
   font-weight: bold;
 }
+/* Sign Up side of the container box body's style */
 .login-sider > div {
   position: relative;
   top: -10%;
   font-size: 20px;
   color: #000000;
 }
-.ant-input-affix-wrapper {
-  border: none;
-  border-bottom: 1px solid #F58025;
-  /* border-radius:5px; */
-}
-
+/* Login button style */
 .login-form-button {
   width: 100%;
 }
+/* Sign Up button style */
 .login-form-signup-button {
   width: 100px;
   background-color: #F58025;
@@ -124,9 +92,15 @@
   font-size: 16px;  
   position: relative;
   top: 20px;
-  left: 50px;
+  left: auto;
 }
+/*  */
 .ant-form-item {
   width: 70%;
   height: 200%
+}
+/*  */
+.ant-input-affix-wrapper {
+  border: none;
+  border-bottom: 1px solid #F58025;
 }

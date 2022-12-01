@@ -1,89 +1,96 @@
-import * as React from "react";
-import Link from "@mui/material/Link";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Title from "../../components/Title";
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.css";
+import "primeflex/primeflex.css";
+import React, { useState, useEffect, useRef } from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Toast } from "primereact/toast";
+import axios from "axios";
 
-const rows = [
-  createData(
-    0,
-    "16 Mar, 2019",
-    "Elvis Presley",
-    "Tupelo, MS",
-    "VISA ⠀•••• 3719",
-    312.44
-  ),
-  createData(
-    1,
-    "16 Mar, 2019",
-    "Paul McCartney",
-    "London, UK",
-    "VISA ⠀•••• 2574",
-    866.99
-  ),
-  createData(
-    2,
-    "16 Mar, 2019",
-    "Tom Scholz",
-    "Boston, MA",
-    "MC ⠀•••• 1253",
-    100.81
-  ),
-  createData(
-    3,
-    "16 Mar, 2019",
-    "Michael Jackson",
-    "Gary, IN",
-    "AMEX ⠀•••• 2000",
-    654.39
-  ),
-  createData(
-    4,
-    "15 Mar, 2019",
-    "Bruce Springsteen",
-    "Long Branch, NJ",
-    "VISA ⠀•••• 5919",
-    212.79
-  )
-];
+const API_KEY = import.meta.env.VITE_API_KEY;
 
-function preventDefault(event) {
-  event.preventDefault();
-}
+export default function Chart() {
+  const [products, setProducts] = useState(null);
+  const [globalFilter] = useState(null);
+  const toast = useRef(null);
+  const dt = useRef(null);
 
-export default function Orders() {
+
+// TODO: Get the data from the DB for a specific users Checkout History.
+//       This is just the code from the Search Page, needs to be modified.
+  const getProductData = async () => {
+    const request_url = `https://smartinventory-backend.glitch.me/assets/display_assets`;
+    const options = {
+      method: "GET",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      url: request_url,
+    };
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          setProducts(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // -------------------------------------------------------------------------------------------
+  useEffect(() => {
+    getProductData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // -------------------------------------------------------------------------------------------
+  const header = (
+    <div className="table-header">
+      <h5 className="mx-0 my-1">Checkout History</h5>
+    </div>
+  );
+  // -------------------------------------------------------------------------------------------
   return (
-    <React.Fragment>
-      <Title>Items Checked Out</Title>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell>Tag Number</TableCell>
-            <TableCell align="right">Return Date</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell align="right">{row.shipTo}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See all items
-      </Link>
-    </React.Fragment>
+    <div className="dashboard">
+      <Toast ref={toast} />
+
+      <div className="card">
+        {/* // ------------------------------------------------------------------------------------------- */}
+        {/* // Creation of the Data Table */}
+        <DataTable
+          ref={dt}
+          value={products}
+          dataKey="asset_id"
+          paginator
+          rows={5}
+          rowsPerPageOptions={[5, 10, 25]}
+          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+          globalFilter={globalFilter}
+          header={header}
+          responsiveLayout="scroll"
+        >
+          <Column
+            field="description"
+            header="Product Name"
+            sortable
+            style={{ minWidth: "16rem" }}
+          ></Column>
+          <Column
+            field="tag_num"
+            header="Tag Number"
+            sortable
+            style={{ minWidth: "8rem" }}
+          ></Column>
+          <Column
+            field="return_date"
+            header="Return Date"
+            sortable
+            style={{ minWidth: "8rem" }}
+          ></Column>
+        </DataTable>
+      </div>
+    </div>
   );
 }

@@ -87,6 +87,7 @@ const NormalLoginForm = ({ setAccessToken }) => {
                 type="button"
                 onClick={toReg}
                 className="login-form-signup-button"
+                size="large"
               >
                 Sign Up
               </Button>
