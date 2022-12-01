@@ -2,12 +2,10 @@ import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
-
 import React, { useState, useEffect, useRef } from "react";
 import { classNames } from "primereact/utils";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { ProductService } from "../../components/ProductService";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Toolbar } from "primereact/toolbar";
@@ -16,10 +14,9 @@ import { InputNumber } from "primereact/inputnumber";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
-
 import "./styles.css";
-const API_KEY = import.meta.env.VITE_API_KEY;
 
+const API_KEY = import.meta.env.VITE_API_KEY;
 export default function Chart() {
   let emptyProduct = {
     asset_id: null,
@@ -38,10 +35,9 @@ export default function Chart() {
     sub_location: "",
     building: "",
   };
-
   const [products, setProducts] = useState(null);
   const [productDialog, setProductDialog] = useState(false);
-  const [deleteProductDialog, setDeleteProductDialog] = useState(false);
+  const [addProductsDialog, setAddProductDialog] = useState(false);
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
   const [product, setProduct] = useState(emptyProduct);
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -49,12 +45,9 @@ export default function Chart() {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const productService = new ProductService();
-
   // get data from db TODO: Check for surplused Items
   const getProductData = async () => {
     const request_url = `https://smartinventory-backend.glitch.me/assets/display_assets`;
-
     const options = {
       method: "GET",
       headers: {
@@ -63,7 +56,6 @@ export default function Chart() {
       },
       url: request_url,
     };
-
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
@@ -90,14 +82,15 @@ export default function Chart() {
     setProductDialog(false);
   };
   // -------------------------------------------------------------------------------------------
-  const hideDeleteProductDialog = () => {
-    setDeleteProductDialog(false);
-  };
-  // -------------------------------------------------------------------------------------------
   const hideDeleteProductsDialog = () => {
     setDeleteProductsDialog(false);
   };
   // -------------------------------------------------------------------------------------------
+  const hideAddToCartProductsDialog = () => {
+    setAddProductDialog(false);
+  };
+  // -------------------------------------------------------------------------------------------
+  // When user pressed the save option when you edit or add an new product from the dialog box
   const saveProduct = () => {
     setSubmitted(true);
     if (product.type.trim()) {
@@ -133,24 +126,6 @@ export default function Chart() {
     setProductDialog(true);
   };
   // -------------------------------------------------------------------------------------------
-  const confirmDeleteProduct = (product) => {
-    setProduct(product);
-    setDeleteProductDialog(true);
-  };
-  // -------------------------------------------------------------------------------------------
-  const deleteProduct = () => {
-    let _products = products.filter((val) => val.asset_id !== product.asset_id);
-    setProducts(_products);
-    setDeleteProductDialog(false);
-    setProduct(emptyProduct);
-    toast.current.show({
-      severity: "success",
-      summary: "Successful",
-      detail: "Product Deleted",
-      life: 3000,
-    });
-  };
-  // -------------------------------------------------------------------------------------------
   const findIndexById = (id) => {
     let index = -1;
     for (let i = 0; i < products.length; i++) {
@@ -176,6 +151,10 @@ export default function Chart() {
     setDeleteProductsDialog(true);
   };
   // -------------------------------------------------------------------------------------------
+  const confirmAddToCartSelected = () => {
+    setAddProductDialog(true);
+  };
+   // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
@@ -185,6 +164,19 @@ export default function Chart() {
       severity: "success",
       summary: "Successful",
       detail: "Products Deleted",
+      life: 3000,
+    });
+  };
+  // -------------------------------------------------------------------------------------------
+  const addSelectedToCartProducts = () => {
+    let _products = products.filter((val) => !selectedProducts.includes(val));
+    setProducts(_products);
+    setAddProductDialog(false);
+    setSelectedProducts(null);
+    toast.current.show({
+      severity: "success",
+      summary: "Successful",
+      detail: "Product Added to Shopping Cart",
       life: 3000,
     });
   };
@@ -214,13 +206,23 @@ export default function Chart() {
           icon="pi pi-plus"
           className="p-button-success mr-2"
           onClick={openNew}
+          title="Add new Asset/Non-Asset to Inventory"
         />
         <Button
           label="Delete"
           icon="pi pi-trash"
-          className="p-button-danger"
+          className="p-button-danger mr-2"
           onClick={confirmDeleteSelected}
           disabled={!selectedProducts || !selectedProducts.length}
+          title="Remove from the Inventory"
+        />
+        <Button
+          label="Add to Cart"
+          icon="pi pi-shopping-cart"
+          className="p-button-warning"
+          onClick={confirmAddToCartSelected}
+          disabled={!selectedProducts || !selectedProducts.length}
+          title="Add to Shopping Cart"
         />
       </React.Fragment>
     );
@@ -232,13 +234,9 @@ export default function Chart() {
       <React.Fragment>
         <Button
           icon="pi pi-pencil"
-          className="p-button-rounded p-button-success mr-2"
+          className="p-button-rounded p-button-info mr-2"
           onClick={() => editProduct(rowData)}
-        />
-        <Button
-          icon="pi pi-trash"
-          className="p-button-rounded p-button-warning"
-          onClick={() => confirmDeleteProduct(rowData)}
+          title="Edit/View Item"
         />
       </React.Fragment>
     );
@@ -246,7 +244,7 @@ export default function Chart() {
   // -------------------------------------------------------------------------------------------
   const header = (
     <div className="table-header">
-      <h5 className="mx-0 my-1">Manage Products</h5>
+      <h5 className="mx-0 my-1">UTA Nursing Department Inventory</h5>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
@@ -263,31 +261,31 @@ export default function Chart() {
       <Button
         label="Cancel"
         icon="pi pi-times"
-        className="p-button-text"
+        className="cancelButton"
         onClick={hideDialog}
       />
       <Button
         label="Save"
         icon="pi pi-check"
-        className="p-button-text"
+        className="saveButton"
         onClick={saveProduct}
       />
     </React.Fragment>
   );
   // -------------------------------------------------------------------------------------------
-  const deleteProductDialogFooter = (
+  const addProductDialogFooter = (
     <React.Fragment>
       <Button
         label="No"
         icon="pi pi-times"
-        className="p-button-text"
-        onClick={hideDeleteProductDialog}
+        className="noAddCartButton"
+        onClick={hideAddToCartProductsDialog}
       />
       <Button
         label="Yes"
         icon="pi pi-check"
-        className="p-button-text"
-        onClick={deleteProduct}
+        className="yesAddCartButton"
+        onClick={addSelectedToCartProducts}
       />
     </React.Fragment>
   );
@@ -297,13 +295,13 @@ export default function Chart() {
       <Button
         label="No"
         icon="pi pi-times"
-        className="p-button-text"
+        className="noDeleteButton"
         onClick={hideDeleteProductsDialog}
       />
       <Button
         label="Yes"
         icon="pi pi-check"
-        className="p-button-text"
+        className="yesDeleteButton"
         onClick={deleteSelectedProducts}
       />
     </React.Fragment>
@@ -556,14 +554,14 @@ export default function Chart() {
         </div>
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
-      {/* // Delete an asset/non-asset dialog menu for the delete button on the top left of the table */}
+      {/* // Add an asset/non-asset to cart dialog menu for the add button on the right side of the row on the table */}
       <Dialog
-        visible={deleteProductDialog}
+        visible={addProductsDialog}
         style={{ width: "450px" }}
         header="Confirm"
         modal
-        footer={deleteProductDialogFooter}
-        onHide={hideDeleteProductDialog}
+        footer={addProductDialogFooter}
+        onHide={hideAddToCartProductsDialog}
       >
         <div className="confirmation-content">
           <i
@@ -572,13 +570,12 @@ export default function Chart() {
           />
           {product && (
             <span>
-              Are you sure you want to delete <b>{product.description}</b>?
-            </span>
+              Are you sure you want to add the selected product(s) to your Shopping Cart?</span>
           )}
         </div>
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
-      {/* // Delete an asset/non-asset dialog menu for the delete button on the right side of a row */}
+      {/* // Delete an asset(s)/non-asset(s) dialog menu for the delete button on the top left of the table */}
       <Dialog
         visible={deleteProductsDialog}
         style={{ width: "450px" }}
@@ -593,7 +590,7 @@ export default function Chart() {
             style={{ fontSize: "2rem" }}
           />
           {product && (
-            <span>Are you sure you want to delete the selected products?</span>
+            <span>Are you sure you want to delete the selected product(s)?</span>
           )}
         </div>
       </Dialog>
