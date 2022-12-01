@@ -1,3 +1,5 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3001"; //"https://smartinventory-backend.glitch.me";
+// change between the live site and the test server
+axios.defaults.baseURL = "http://localhost:3001";
+//axios.defaults.baseURL = "https://smartinventory-backend.glitch.me";

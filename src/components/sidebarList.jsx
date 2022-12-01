@@ -30,7 +30,7 @@ export const mainListItems = (
           <ShoppingCartIcon />
         </Badge>
       </ListItemIcon>
-      <ListItemText primary="Shopping Cart" />
+      <ListItemText primary="Checkout" />
     </ListItemButton>
     {/* SideBar Search */}
     <ListItemButton href="/search" variant="contained">

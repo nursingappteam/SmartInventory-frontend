@@ -158,7 +158,7 @@ export default function Chart() {
       let _products = [...products];
       let _product = { ...product };
       if (product.asset_id) {
-        // console.log("product exists"); ADD UPDATING ITEM IN DB````````````````````````````````````````````````````````TODO:
+        // console.log("product exists"); ADD UPDATING ITEM IN DB````````````````````````````````````````````````````````
         /* const index = findIndexById(product.asset_id);
         _products[index] = _product; */
         console.log(product);
@@ -236,7 +236,7 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
-    //TODO: make delete Selected Items
+    //TODO: make surplus Selected Items
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setDeleteProductsDialog(false);
@@ -616,7 +616,7 @@ export default function Chart() {
         </div>
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
-      {/* // Delete an asset/non-asset dialog menu for the delete button on the top left of the table */}
+      {/* // Delete an asset/non-asset dialog menu for the delete button on the right side of a row */}
       <Dialog
         visible={deleteProductDialog}
         style={{ width: "450px" }}
@@ -638,7 +638,7 @@ export default function Chart() {
         </div>
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
-      {/* // Delete an asset/non-asset dialog menu for the delete button on the right side of a row */}
+      {/* // Delete an asset/non-asset dialog menu for the delete button on the top left of the table */}
       <Dialog
         visible={deleteProductsDialog}
         style={{ width: "450px" }}
