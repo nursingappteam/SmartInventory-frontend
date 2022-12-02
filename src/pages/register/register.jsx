@@ -4,7 +4,9 @@ import "./register.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -16,9 +18,49 @@ const RegisterForm = () => {
     navigate("/register");
   };
 
-  const toForgetPassword = () =>{
-    navigate("/ForgetPassword");
-  }
+
+  render() {
+    const { autoCompleteResult } = this.state;
+    const { navigate } = this.props;
+    // return to login
+    const toLog = () => {
+      navigate("/");
+    };
+
+    const onFinish = async (values) => {
+      const request_url = "/users/newUser";
+      const { name, username, password } = values;
+
+      // axios post options
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          api_key: API_KEY,
+        },
+        data: {
+          username: name,
+          user_email: username,
+          password,
+          // regular user: 1, Admin: 2
+          user_type: 1,
+        },
+        url: request_url,
+      };
+
+      //axios request
+      const response = await axios(options)
+        .then((response) => {
+          if (response.status === 201) {
+            //alert("Account Created");
+            toLog();
+          }
+        })
+        .catch((error) => {
+          alert("Email already taken.");
+        });
+    };
+
 
   const toDashboard = () => {
     navigate("/Dashboard");
@@ -168,15 +210,21 @@ const RegisterForm = () => {
               // Send user to Reset password page
             >
               Register
-            </Button>
+            </Button>{" "}
+            or <a onClick={toLog}>Return to Login</a>
           </Form.Item>
 
         
           
         </div>
       </Form>
-    </div>
-  );
-};
 
-export default RegisterForm;
+    );
+  }
+}
+
+export default function (props) {
+  const navigate = useNavigate();
+
+  return <RegistrationForm {...props} navigate={navigate} />;
+}

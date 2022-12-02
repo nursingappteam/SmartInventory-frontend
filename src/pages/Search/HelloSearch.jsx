@@ -47,7 +47,8 @@ export default function Chart() {
   const dt = useRef(null);
   // get data from db TODO: Check for surplused Items
   const getProductData = async () => {
-    const request_url = `https://smartinventory-backend.glitch.me/assets/display_assets`;
+    const request_url = `/assets/display_assets`;
+
     const options = {
       method: "GET",
       headers: {
@@ -60,6 +61,60 @@ export default function Chart() {
       .then((response) => {
         if (response.status === 200) {
           setProducts(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // update Asset
+  const updateProduct = async (values) => {
+    let request_url = "/assets/update";
+
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        values,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("product updated");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // add new Asset
+  const addProduct = async (values) => {
+    let request_url = "/assets/add";
+
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        values,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("product added");
         }
       })
       .catch((err) => {
@@ -97,8 +152,11 @@ export default function Chart() {
       let _products = [...products];
       let _product = { ...product };
       if (product.asset_id) {
-        const index = findIndexById(product.asset_id);
-        _products[index] = _product;
+        // console.log("product exists"); ADD UPDATING ITEM IN DB````````````````````````````````````````````````````````
+        /* const index = findIndexById(product.asset_id);
+        _products[index] = _product; */
+        console.log(product);
+        updateProduct(product);
         toast.current.show({
           severity: "success",
           summary: "Successful",
@@ -106,8 +164,9 @@ export default function Chart() {
           life: 3000,
         });
       } else {
-        _product.asset_id = createId();
-        _products.push(_product);
+        /* _product.asset_id = createId();
+        _products.push(_product); */
+        addProduct(product);
         toast.current.show({
           severity: "success",
           summary: "Successful",
@@ -154,8 +213,9 @@ export default function Chart() {
   const confirmAddToCartSelected = () => {
     setAddProductDialog(true);
   };
-   // -------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
+    //TODO: make surplus Selected Items
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setDeleteProductsDialog(false);
@@ -315,7 +375,7 @@ export default function Chart() {
       <div className="card">
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Creation of the top toolbar of the table (Add and Delete button) */}
-        {sessionStorage.getItem("user_type_id") == 1 && (
+        {sessionStorage.getItem("user_type_id") == 2 && (
           <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
         )}
         {/* // ------------------------------------------------------------------------------------------- */}
@@ -571,7 +631,9 @@ export default function Chart() {
           />
           {product && (
             <span>
-              Are you sure you want to add the selected product(s) to your Shopping Cart?</span>
+              Are you sure you want to add the selected product(s) to your
+              Shopping Cart?
+            </span>
           )}
         </div>
       </Dialog>
@@ -591,7 +653,9 @@ export default function Chart() {
             style={{ fontSize: "2rem" }}
           />
           {product && (
-            <span>Are you sure you want to delete the selected product(s)?</span>
+            <span>
+              Are you sure you want to delete the selected product(s)?
+            </span>
           )}
         </div>
       </Dialog>

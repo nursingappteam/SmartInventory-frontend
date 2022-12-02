@@ -8,25 +8,20 @@ import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-const NormalLoginForm = () => {
-  // moving to register page
+const NormalLoginForm = ({ setSid }) => {
   const navigate = useNavigate();
 
   const toRegister = () => {
     navigate("/register");
   };
 
-  const toForgetPassword = () =>{
-    navigate("/ForgetPassword");
-  }
-
-  const toDashboard = () => {
-    navigate("/Dashboard");
+  const toForgetPassword = () => {
+    navigate("/forgetPassword");
   };
+
   // logic for Login
   let onFinish = async (values) => {
-    const request_url =
-      "https://smartinventory-backend.glitch.me/users/validateUser";
+    const request_url = "/users/validateUser";
     const { username, password } = values;
 
     //axios request options
@@ -47,8 +42,14 @@ const NormalLoginForm = () => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("user_type_id", response.data.user_type_id);
-          toDashboard();
+          /* sessionStorage.setItem("user_type_id", response.data.user_type_id);
+          sessionStorage.setItem("user_id", response.data.user_id);
+          sessionStorage.setItem("user_name", response.data.user_name); */
+          // assign an access token to allow user to pass
+          console.log(response.data.user);
+          setSid(response.data.session_id);
+
+          //setAccessToken({ accessToken: 5 });
         }
       })
       .catch((error) => {
@@ -72,7 +73,7 @@ const NormalLoginForm = () => {
             Sign up and take advantage of UTA's Nursing Department inventory.
             <Form.Item>
               <Button
-                type="primary"
+                type="button"
                 onClick={toRegister}
                 className="login-form-signup-button"
                 size="large"
@@ -133,7 +134,7 @@ const NormalLoginForm = () => {
               Log in
             </Button>
           </Form.Item>
-          <a className="login-form-forgot" href="" onClick={toForgetPassword} >
+          <a className="login-form-forgot" onClick={toForgetPassword}>
             Forgot password?
           </a>
         </div>

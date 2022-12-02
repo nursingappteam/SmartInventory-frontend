@@ -7,3 +7,4 @@ build
 package-lock.json
 .env
 .dccache
+SmartInventory-frontend.code-workspace
