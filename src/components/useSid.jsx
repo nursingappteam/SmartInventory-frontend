@@ -1,4 +1,5 @@
 import { useState } from "react";
+//import cookie from "react-cookie";
 
 export default function useSid() {
   const getSid = () => {

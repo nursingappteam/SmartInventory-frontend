@@ -19,10 +19,7 @@ const RegisterForm = () => {
   // logic for register
   const onFinish = async (values) => {
     const request_url = "/users/newUser";
-    console.log(values);
     const { name, username, password } = values;
-    console.log(name);
-    console.log(username);
     // axios post options
     const options = {
       method: "POST",
