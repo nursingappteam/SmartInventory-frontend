@@ -14,18 +14,18 @@ function App() {
   const { sid, setSid } = useSid();
   // test if session has proper token
   // move to login screen if not TODO: add reset password pages
+
+  /* if (sid == 1) {
+    return <Register setSid={setSid} />;
+  } else if (!sid || sid == 0) {
+    return <Login setSid={setSid} />;
+  } else if (sid == 2) {
+    return <ForgetPassword/>
+  } */
   if (!sid) {
     return (
       <Router>
-        <Routes>
-          <Route path="/" element={<Login setSid={setSid} />} />
-
-          <Route path="/register" element={<Register />} />
-
-          <Route path="/forgetPassword" element={<ForgetPassword />} />
-
-          <Route path="/resetPassword" element={<ResetPassword />} />
-        </Routes>
+        <LoggedOutRouter setSid={setSid} />
       </Router>
     );
   }

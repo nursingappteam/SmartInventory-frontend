@@ -47,7 +47,6 @@ const NormalLoginForm = ({ setSid }) => {
           sessionStorage.setItem("user_name", response.data.user_name); */
           // assign an access token to allow user to pass
           console.log(response.data.user);
-          console.log(response.data.session_id.sid);
           setSid(response.data.session_id);
 
           //setAccessToken({ accessToken: 5 });

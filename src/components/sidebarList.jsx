@@ -8,6 +8,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Badge } from "@mui/material";
+import { SettingsInputSvideo } from "@material-ui/icons";
+import useSid from "./useSid";
 
 export const mainListItems = (
   <React.Fragment>

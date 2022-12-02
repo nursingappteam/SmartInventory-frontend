@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function useSid() {
   const getSid = () => {
-    const tokenString = sessionStorage.getItem("sid");
+    const tokenString = localStorage.getItem("sid");
     const userSid = JSON.parse(tokenString);
     return userSid;
   };
