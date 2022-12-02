@@ -8,10 +8,14 @@ import Register from "./pages/register/register.jsx";
 import ForgetPassword from "./pages/forgetPassword/ForgetPassword.jsx";
 import ResetPassword from "./pages/resetPassword/ResetPassword.jsx";
 
-import useSid from "./components/useSid.jsx";
+//import useSid from "./components/useSid.jsx";
+import { useCookies } from "react-cookie";
 
 function App() {
-  const { sid, setSid } = useSid();
+  //const { sid, setSid } = useSid();
+  const [cookies, setCookies, removeCookies] = useCookies([
+    "inventory_session_id",
+  ]);
   // test if session has proper token
   // move to login screen if not TODO: add reset password pages
 
@@ -22,10 +26,10 @@ function App() {
   } else if (sid == 2) {
     return <ForgetPassword/>
   } */
-  if (!sid) {
+  if (document.cookie.indexOf("inventory_session_id=")) {
     return (
       <Router>
-        <LoggedOutRouter setSid={setSid} />
+        <LoggedOutRouter setCookies={setCookies} />
       </Router>
     );
   }

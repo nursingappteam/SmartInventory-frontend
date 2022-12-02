@@ -10,6 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Badge } from "@mui/material";
 import { SettingsInputSvideo } from "@material-ui/icons";
 import useSid from "./useSid";
+import { useCookies } from "react-cookie";
 
 export const mainListItems = (
   <React.Fragment>
@@ -79,7 +80,10 @@ export const mainListItems = (
     <ListItemButton
       href="/"
       variant="contained"
-      onClick={() => localStorage.clear()}
+      onClick={() => {
+        document.cookie =
+          "inventory_session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }}
     >
       <ListItemIcon>
         <LogoutIcon />

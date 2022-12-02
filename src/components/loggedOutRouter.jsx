@@ -12,9 +12,9 @@ import ForgetPassword from "../pages/forgetPassword/ForgetPassword.jsx";
 import ResetPassword from "../pages/resetPassword/ResetPassword.jsx";
 import NotFound from "./notFound.jsx";
 
-export default ({ setSid }) => (
+export default ({ setCookies }) => (
   <Routes>
-    <Route path="/" element={<Login setSid={setSid} />} />
+    <Route path="/" element={<Login setCookies={setCookies} />} />
 
     <Route path="/register" element={<Register />} />
 

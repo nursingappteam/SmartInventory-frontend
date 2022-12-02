@@ -4,9 +4,8 @@ import "./register.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
-
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -14,65 +13,14 @@ const RegisterForm = () => {
   // moving to register page
   const navigate = useNavigate();
 
-  const toRegister = () => {
-    navigate("/register");
+  const toLog = () => {
+    navigate("/");
   };
 
-
-  render() {
-    const { autoCompleteResult } = this.state;
-    const { navigate } = this.props;
-    // return to login
-    const toLog = () => {
-      navigate("/");
-    };
-
-    const onFinish = async (values) => {
-      const request_url = "/users/newUser";
-      const { name, username, password } = values;
-
-      // axios post options
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          api_key: API_KEY,
-        },
-        data: {
-          username: name,
-          user_email: username,
-          password,
-          // regular user: 1, Admin: 2
-          user_type: 1,
-        },
-        url: request_url,
-      };
-
-      //axios request
-      const response = await axios(options)
-        .then((response) => {
-          if (response.status === 201) {
-            //alert("Account Created");
-            toLog();
-          }
-        })
-        .catch((error) => {
-          alert("Email already taken.");
-        });
-    };
-
-
-  const toDashboard = () => {
-    navigate("/Dashboard");
-  };
-  // logic for Login
+  // logic for register
   const onFinish = async (values) => {
-    const request_url =
-      "https://smartinventory-backend.glitch.me/users/newUser";
-    console.log(values)
+    const request_url = "/users/newUser";
     const { name, username, password } = values;
-    console.log(name)
-    console.log(username)
     // axios post options
     const options = {
       method: "POST",
@@ -95,7 +43,7 @@ const RegisterForm = () => {
       .then((response) => {
         if (response.status === 201) {
           //alert("Account Created");
-          navigate("/");
+          toLog();
         }
       })
       .catch((error) => {
@@ -140,7 +88,7 @@ const RegisterForm = () => {
               },
             ]}
           >
-            <Input placeholder="Name"/>
+            <Input placeholder="Name" />
           </Form.Item>
           {/* // Email */}
           <Form.Item
@@ -201,7 +149,7 @@ const RegisterForm = () => {
               placeholder="Confirm Password"
             />
           </Form.Item>
-          
+
           <Form.Item>
             <Button
               type="primary"
@@ -213,18 +161,10 @@ const RegisterForm = () => {
             </Button>{" "}
             or <a onClick={toLog}>Return to Login</a>
           </Form.Item>
-
-        
-          
         </div>
       </Form>
+    </div>
+  );
+};
 
-    );
-  }
-}
-
-export default function (props) {
-  const navigate = useNavigate();
-
-  return <RegistrationForm {...props} navigate={navigate} />;
-}
+export default RegisterForm;

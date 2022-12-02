@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-const NormalLoginForm = ({ setSid }) => {
+const NormalLoginForm = ({ setCookies }) => {
   const navigate = useNavigate();
 
   const toRegister = () => {
@@ -46,13 +46,19 @@ const NormalLoginForm = ({ setSid }) => {
           sessionStorage.setItem("user_id", response.data.user_id);
           sessionStorage.setItem("user_name", response.data.user_name); */
           // assign an access token to allow user to pass
-          console.log(response.data.user);
-          setSid(response.data.session_id);
+          //console.log(response.data.user);
+          //console.log(response.data.cookie);
+          setCookies(
+            response.data.cookie.name,
+            response.data.cookie.value
+            //response.data.cookie.options
+          );
 
           //setAccessToken({ accessToken: 5 });
         }
       })
       .catch((error) => {
+        console.log(error);
         alert("Your credentials are incorrect. Try again.");
       });
   };
