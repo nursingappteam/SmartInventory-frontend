@@ -8,30 +8,16 @@ import { useNavigate } from "react-router-dom";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-const NormalLoginForm = ({ setAccessToken }) => {
-  // move to registration page
-  const toReg = () => {
-    var data = { accessToken: 1 };
-    setAccessToken(data);
-  };
+const NormalLoginForm = ({ setSid }) => {
+  const navigate = useNavigate();
 
-  const toForgetPassword = () => {
-    var data = { accessToken: 3 };
-    setAccessToken(data);
-  };
-  //const navigate = useNavigate();
-
-  /* const toRegister = () => {
+  const toRegister = () => {
     navigate("/register");
   };
 
-  const toForgetPassword = () =>{
-    navigate("/ForgetPassword");
-  }
-
-  const toDashboard = () => {
-    navigate("/Dashboard");
-  }; */
+  const toForgetPassword = () => {
+    navigate("/forgetPassword");
+  };
 
   // logic for Login
   let onFinish = async (values) => {
@@ -56,11 +42,15 @@ const NormalLoginForm = ({ setAccessToken }) => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("user_type_id", response.data.user_type_id);
+          /* sessionStorage.setItem("user_type_id", response.data.user_type_id);
           sessionStorage.setItem("user_id", response.data.user_id);
-          sessionStorage.setItem("user_name", response.data.user_name);
+          sessionStorage.setItem("user_name", response.data.user_name); */
           // assign an access token to allow user to pass
-          setAccessToken({ accessToken: 5 });
+          console.log(response.data.user);
+          console.log(response.data.session_id.sid);
+          setSid(response.data.session_id);
+
+          //setAccessToken({ accessToken: 5 });
         }
       })
       .catch((error) => {
@@ -85,7 +75,7 @@ const NormalLoginForm = ({ setAccessToken }) => {
             <Form.Item>
               <Button
                 type="button"
-                onClick={toReg}
+                onClick={toRegister}
                 className="login-form-signup-button"
                 size="large"
               >
@@ -145,7 +135,7 @@ const NormalLoginForm = ({ setAccessToken }) => {
               Log in
             </Button>
           </Form.Item>
-          <a className="login-form-forgot" href="" onClick={toForgetPassword}>
+          <a className="login-form-forgot" onClick={toForgetPassword}>
             Forgot password?
           </a>
         </div>

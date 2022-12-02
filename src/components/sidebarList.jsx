@@ -77,7 +77,7 @@ export const mainListItems = (
     <ListItemButton
       href="/"
       variant="contained"
-      onClick={() => sessionStorage.clear()}
+      onClick={() => localStorage.clear()}
     >
       <ListItemIcon>
         <LogoutIcon />

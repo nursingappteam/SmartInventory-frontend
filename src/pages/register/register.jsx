@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
-import useAccessToken from "../../components/useAccessToken";
 import "./register.css";
 import {
   Form,
@@ -47,12 +46,10 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { autoCompleteResult } = this.state;
-    const { setAccessToken } = this.props;
-    //const { navigation } = this.props;
+    const { navigate } = this.props;
     // return to login
     const toLog = () => {
-      var data = { accessToken: 0 };
-      setAccessToken(data);
+      navigate("/");
     };
 
     const onFinish = async (values) => {
@@ -220,10 +217,7 @@ class RegistrationForm extends React.Component {
 }
 
 export default function (props) {
-  //const navigation = useNavigate();
-  //const { accessToken, setAccessToken } = useAccessToken();
+  const navigate = useNavigate();
 
-  return <RegistrationForm {...props} setAccessToken={props.setAccessToken} />;
+  return <RegistrationForm {...props} navigate={navigate} />;
 }
-
-//export default RegistrationForm;
