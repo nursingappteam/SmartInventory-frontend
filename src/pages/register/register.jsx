@@ -16,6 +16,7 @@ const RegisterForm = () => {
   const toLog = () => {
     navigate("/");
   };
+
   // logic for register
   const onFinish = async (values) => {
     const request_url = "/users/newUser";
@@ -42,7 +43,7 @@ const RegisterForm = () => {
       .then((response) => {
         if (response.status === 201) {
           //alert("Account Created");
-          navigate("/");
+          toLog();
         }
       })
       .catch((error) => {
