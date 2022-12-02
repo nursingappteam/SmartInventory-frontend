@@ -1,48 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "antd/dist/antd.css";
 import "./register.css";
-import {
-  Form,
-  Input,
-  Tooltip,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from "antd";
+import { Form, Input, Button } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
+
 import { useState } from "react";
 
+
 const API_KEY = import.meta.env.VITE_API_KEY;
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 
-class RegistrationForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
+const RegisterForm = () => {
+  // moving to register page
+  const navigate = useNavigate();
+
+  const toRegister = () => {
+    navigate("/register");
   };
 
-  handleConfirmBlur = (e) => {
-    const { value } = e.target;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  handleWebsiteChange = (value) => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = [".com", ".org", ".net"].map(
-        (domain) => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
-  };
 
   render() {
     const { autoCompleteResult } = this.state;
@@ -86,102 +61,121 @@ class RegistrationForm extends React.Component {
         });
     };
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    /* const prefixSelector = getFieldDecorator("prefix", {
-      initialValue: "86",
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    ); */
 
-    const websiteOptions = autoCompleteResult.map((website) => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
+  const toDashboard = () => {
+    navigate("/Dashboard");
+  };
+  // logic for Login
+  const onFinish = async (values) => {
+    const request_url =
+      "https://smartinventory-backend.glitch.me/users/newUser";
+    console.log(values)
+    const { name, username, password } = values;
+    console.log(name)
+    console.log(username)
+    // axios post options
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        username: name,
+        user_email: username,
+        password,
+        // regular user
+        user_type: 1,
+      },
+      url: request_url,
+    };
 
-    return (
-      <Form ref={this.formref} {...formItemLayout} onFinish={onFinish}>
-        <img
-          src={
-            "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo.png"
-          }
-          className="img"
-          alt="logo"
-        />
-        <div className="title">
-          <h1>Registration Form</h1>
+    //axios request
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 201) {
+          //alert("Account Created");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        alert("Email already taken.");
+      });
+  };
+
+  return (
+    <div className="container">
+      <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+      >
+        <div className="login-sider">
+          <h2>Register</h2>
+
+          <img
+            className="img"
+            src={
+              "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/uta.png?v=1667445058928"
+            }
+          />
         </div>
-        <div className="text_box">
+        <div className="login-form-container">
+          <img
+            src={
+              "https://cdn.glitch.global/8f82fd3a-14bb-4138-b568-087de2f01eea/logo.png?v=1667445088387"
+            }
+          />
+          <h1>Registration Form</h1>
+          {/* // Name */}
           <Form.Item
             name="name"
-            label={<span>Name</span>}
             rules={[
               {
                 required: true,
                 message: "Please input your name!",
-                whitespace: true,
               },
             ]}
           >
-            <Input />
+            <Input placeholder="Name"/>
           </Form.Item>
+          {/* // Email */}
           <Form.Item
             name="username"
-            label="E-mail"
-            tooltip="Please enter your UTA email"
             rules={[
               {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-              {
                 required: true,
-                message: "Please input your E-mail!",
+                message: "Please input your Username/Email!",
               },
             ]}
           >
-            <Input />
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Username/Email"
+            />
           </Form.Item>
+          {/* // Password */}
           <Form.Item
             name="password"
-            label="Password"
-            hasFeedback
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Please input your Password!",
               },
             ]}
           >
-            <Input.Password />
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
           </Form.Item>
+          {/* // Confirm Password */}
           <Form.Item
             name="confirmPassword"
-            label="Confirm Password"
-            dependencies={["password"]}
-            hasFeedback
             rules={[
               {
                 required: true,
@@ -201,17 +195,30 @@ class RegistrationForm extends React.Component {
               }),
             ]}
           >
-            <Input.Password onBlur={this.handleConfirmBlur} />
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Confirm Password"
+            />
           </Form.Item>
-
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
+          
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+              // Send user to Reset password page
+            >
               Register
             </Button>{" "}
             or <a onClick={toLog}>Return to Login</a>
           </Form.Item>
+
+        
+          
         </div>
       </Form>
+
     );
   }
 }
