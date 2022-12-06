@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Badge } from "@mui/material";
 import { SettingsInputSvideo } from "@material-ui/icons";
-import useSid from "./useSid";
+//import useSid from "./useSid";
 import { useCookies } from "react-cookie";
 
 export const mainListItems = (
@@ -32,7 +32,7 @@ export const mainListItems = (
     {/* SideBar Shopping Cart */}
     <ListItemButton href="/shoppingcart" variant="contained">
       <ListItemIcon>
-        <Badge badgeContent={sessionStorage.getItem("checkoutCount")}>
+        <Badge badgeContent={localStorage.getItem("cart_count")}>
           <ShoppingCartIcon />
         </Badge>
       </ListItemIcon>

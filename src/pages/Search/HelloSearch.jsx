@@ -15,6 +15,7 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import "./styles.css";
+import { useCookies } from "react-cookie";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 export default function Chart() {
@@ -43,6 +44,9 @@ export default function Chart() {
   const [selectedProducts, setSelectedProducts] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [cookies, setCookies, removeCookies] = useCookies([
+    "inventory_session_id",
+  ]);
   const toast = useRef(null);
   const dt = useRef(null);
   // get data from db TODO: Check for surplused Items
@@ -115,6 +119,34 @@ export default function Chart() {
       .then((response) => {
         if (response.status === 200) {
           console.log("product added");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const sessionUpdateCart = async (values) => {
+    let request_url = `/users/session/updateCart`;
+    // post the cookie session ID and the list of items
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        session_id: cookies.inventory_session_id,
+        cart_items: values,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data.cart_count);
+          localStorage.setItem("cart_count", response.data.cart_count);
         }
       })
       .catch((err) => {
@@ -216,7 +248,7 @@ export default function Chart() {
   // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
     //TODO: make surplus Selected Items
-    let _products = products.filter((val) => !selectedProducts.includes(val));
+    var _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setDeleteProductsDialog(false);
     setSelectedProducts(null);
@@ -229,8 +261,15 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   const addSelectedToCartProducts = () => {
-    let _products = products.filter((val) => !selectedProducts.includes(val));
-    setProducts(_products);
+    // gets asset_ids from selected items
+    var _selectedProducts = [];
+    for (let i in selectedProducts) {
+      _selectedProducts.push(selectedProducts[i].asset_id);
+    }
+
+    sessionUpdateCart(_selectedProducts);
+    //let _products = products.filter((val) => !selectedProducts.includes(val));
+    //setProducts(_products);
     setAddProductDialog(false);
     setSelectedProducts(null);
     toast.current.show({
@@ -301,7 +340,7 @@ export default function Chart() {
         <i className="pi pi-search" />
         <InputText
           type="search"
-          size='60'
+          size="60"
           onInput={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search..."
         />
