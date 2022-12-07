@@ -48,9 +48,11 @@ const NormalLoginForm = ({ setCookies }) => {
           // assign an access token to allow user to pass
           //console.log(response.data.user);
           //console.log(response.data.cookie);
+          console.log(response.data);
           setCookies(
-            response.data.cookie.name,
-            response.data.cookie.value
+            //response.data.cookie.name,
+            "inventory_session_id",
+            response.data.cookie
             //response.data.cookie.options
           );
 

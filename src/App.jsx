@@ -12,20 +12,10 @@ import ResetPassword from "./pages/resetPassword/ResetPassword.jsx";
 import { useCookies } from "react-cookie";
 
 function App() {
-  //const { sid, setSid } = useSid();
   const [cookies, setCookies, removeCookies] = useCookies([
     "inventory_session_id",
   ]);
   // test if session has proper token
-  // move to login screen if not TODO: add reset password pages
-
-  /* if (sid == 1) {
-    return <Register setSid={setSid} />;
-  } else if (!sid || sid == 0) {
-    return <Login setSid={setSid} />;
-  } else if (sid == 2) {
-    return <ForgetPassword/>
-  } */
   if (document.cookie.indexOf("inventory_session_id=")) {
     return (
       <Router>

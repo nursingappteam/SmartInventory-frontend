@@ -36,7 +36,7 @@ export default function Chart() {
     sub_location: "",
     building: "",
   };
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
   const [productDialog, setProductDialog] = useState(false);
   const [addProductsDialog, setAddProductDialog] = useState(false);
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
@@ -47,6 +47,7 @@ export default function Chart() {
   const [cookies, setCookies, removeCookies] = useCookies([
     "inventory_session_id",
   ]);
+
   const toast = useRef(null);
   const dt = useRef(null);
   // get data from db TODO: Check for surplused Items

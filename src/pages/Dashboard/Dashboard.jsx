@@ -25,6 +25,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems } from "../../components/sidebarList";
 import Hello from "./Hello";
 import Orders from "./Orders";
+import { PendingCheckouts } from "./PendingCheckouts";
 
 const drawerWidth = 240;
 
@@ -184,6 +185,19 @@ function DashboardContent() {
                   }}
                 >
                   <Hello />
+                </Paper>
+              </Grid>
+              {/* TODO: Show pending checkouts to ONLY admin */}
+              <Grid item xs={12}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    backgroundColor: "#FAF9F6",
+                  }}
+                >
+                  <PendingCheckouts />
                 </Paper>
               </Grid>
               <Grid item xs={12}>

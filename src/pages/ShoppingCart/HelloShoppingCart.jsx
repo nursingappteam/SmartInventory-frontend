@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -11,15 +11,18 @@ import TableRow from "@material-ui/core/TableRow";
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import "./styles.css";
 import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
+
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const columns = [
-  { id: "product", label: "Product Name", minWidth: 170, align: "middle" },
-  { id: "tagnumber", label: "Tag\u00a0Number", minWidth: 50, align: "middle" },
+  { id: "product", label: "Product Name", minWidth: 170 },
+  { id: "tagnumber", label: "Tag\u00a0Number", minWidth: 50 },
   {
     id: "type",
     label: "Type",
     minWidth: 170,
-    align: "middle",
     // format: (value) => value.toLocaleString('en-US'),
   },
   {
@@ -30,7 +33,7 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
 ];
-
+/*
 function createData(product, tagnumber, type, index) {
   return { product, tagnumber, type, index };
 }
@@ -93,7 +96,7 @@ const rows = [
     15
   ),
   createData("Kit, Poverty Simulation #1", "697583", "Nonconsumable Item", 16),
-];
+]; */
 
 const deleteRow = () => {
   // Copy rows data => delete => reassign to original rows data
@@ -104,7 +107,27 @@ const deleteRow = () => {
   console.log("deleteed");
 };
 
-const checkout = () => {
+// TODO: finish adding of items to checkout table
+const checkout = async () => {
+  const request_url = `/checkout/createCheckout`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Content_Type: "application/json",
+      api_key: API_KEY,
+    },
+    url: request_url,
+  };
+  const response = await axios(options)
+    .then((response) => {
+      if (response.status === 200) {
+        setProducts(response.data);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   console.log("checkout");
 };
 
@@ -119,17 +142,17 @@ const useStyles = makeStyles({
 
 export default function Chart() {
   const classes = useStyles();
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [cookies, setCookies, removeCookies] = useCookies([
     "inventory_session_id",
   ]);
 
   // TODO: get checkout cart for user returns in state products.
   const getCart = async () => {
-    const request_url = `/users/session/getSession`;
+    const request_url = `/session/getUserCart`;
 
     const options = {
       method: "GET",
@@ -148,6 +171,7 @@ export default function Chart() {
         if (res.status === 200) {
           console.log("loading cart data");
           setProducts(res.data);
+          console.log(res.data);
         }
       })
       .catch((err) => {
@@ -164,6 +188,10 @@ export default function Chart() {
     setPage(0);
   };
 
+  // load in data for user's shopping cart
+  useEffect(() => {
+    getCart();
+  }, []);
   return (
     <React.Fragment>
       <Paper className={classes.root}>
