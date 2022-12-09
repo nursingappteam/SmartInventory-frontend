@@ -16,6 +16,8 @@ import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import "./styles.css";
 import { useCookies } from "react-cookie";
+import { useContext } from "react";
+import UserContext from "../../components/UserContext";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 export default function Chart() {
@@ -47,7 +49,8 @@ export default function Chart() {
   const [cookies, setCookies, removeCookies] = useCookies([
     "inventory_session_id",
   ]);
-
+  const { user_id } = useContext(UserContext);
+  console.log(user_id);
   const toast = useRef(null);
   const dt = useRef(null);
   // get data from db TODO: Check for surplused Items

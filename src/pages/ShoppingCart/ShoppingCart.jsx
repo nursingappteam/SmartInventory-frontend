@@ -174,7 +174,7 @@ function ShoppingCartContent() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Welcome Card */}
-              <Grid item xs={12} md={12} lg={12}>
+              <Grid item lg={12}>
                 {/* <Paper
                   sx={{
                     p: 2,
@@ -184,6 +184,8 @@ function ShoppingCartContent() {
                     backgroundColor: "#FAF9F6"
                   }}
                 > */}
+                {/* TODO: Fix shopping cart graphical bug */}
+
                 <ShoppingCartMain />
                 {/* </Paper> */}
               </Grid>

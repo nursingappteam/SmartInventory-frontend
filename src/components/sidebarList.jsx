@@ -7,6 +7,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@mui/material/Link";
 import { Badge } from "@mui/material";
 import { SettingsInputSvideo } from "@material-ui/icons";
 //import useSid from "./useSid";
@@ -15,7 +17,7 @@ import { useCookies } from "react-cookie";
 export const mainListItems = (
   <React.Fragment>
     {/* SideBar Dashboard */}
-    <ListItemButton href="/" variant="contained">
+    <ListItemButton component={RouterLink} to="/" variant="contained">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -30,7 +32,11 @@ export const mainListItems = (
       />
     </ListItemButton>
     {/* SideBar Shopping Cart */}
-    <ListItemButton href="/shoppingcart" variant="contained">
+    <ListItemButton
+      component={RouterLink}
+      to="/shoppingcart"
+      variant="contained"
+    >
       <ListItemIcon>
         <Badge badgeContent={localStorage.getItem("cart_count")}>
           <ShoppingCartIcon />
@@ -47,7 +53,7 @@ export const mainListItems = (
       />
     </ListItemButton>
     {/* SideBar Search */}
-    <ListItemButton href="/search" variant="contained">
+    <ListItemButton component={RouterLink} to="/search" variant="contained">
       <ListItemIcon>
         <SearchIcon />
       </ListItemIcon>
@@ -62,7 +68,7 @@ export const mainListItems = (
       />
     </ListItemButton>
     {/* SideBar Settings */}
-    <ListItemButton href="/settings" variant="contained">
+    <ListItemButton component={RouterLink} to="/settings" variant="contained">
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>

@@ -107,30 +107,6 @@ const deleteRow = () => {
   console.log("deleteed");
 };
 
-// TODO: finish adding of items to checkout table
-const checkout = async () => {
-  const request_url = `/checkout/createCheckout`;
-
-  const options = {
-    method: "POST",
-    headers: {
-      Content_Type: "application/json",
-      api_key: API_KEY,
-    },
-    url: request_url,
-  };
-  const response = await axios(options)
-    .then((response) => {
-      if (response.status === 200) {
-        setProducts(response.data);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  console.log("checkout");
-};
-
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -179,6 +155,30 @@ export default function Chart() {
       });
   };
 
+  // TODO: finish adding of items to checkout table
+  const checkout = async () => {
+    const request_url = `/checkout/createCheckout`;
+
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      url: request_url,
+    };
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          setProducts(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log("checkout");
+  };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -190,7 +190,7 @@ export default function Chart() {
 
   // load in data for user's shopping cart
   useEffect(() => {
-    getCart();
+    //getCart();
   }, []);
   return (
     <React.Fragment>

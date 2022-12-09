@@ -26,6 +26,10 @@ import { mainListItems } from "../../components/sidebarList";
 import Hello from "./Hello";
 import Orders from "./Orders";
 import { PendingCheckouts } from "./PendingCheckouts";
+import UserContext from "../../components/UserContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -98,7 +102,21 @@ function DashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  // reset the UserContext for new Route path
+  const { user_id, set_user_id } = useContext(UserContext);
+  const { user_email, set_user_email } = useContext(UserContext);
+  const { user_name, set_user_name } = useContext(UserContext);
+  const { user_type_id, set_user_type_id } = useContext(UserContext);
 
+  useEffect(() => {
+    if (user_id == "") {
+      set_user_id(sessionStorage.getItem("user_id"));
+      set_user_email(sessionStorage.getItem("user_email"));
+      set_user_name(sessionStorage.getItem("user_name"));
+      set_user_type_id(sessionStorage.getItem("user_type_id"));
+      //useNavigate("/search");
+    }
+  }, []);
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
