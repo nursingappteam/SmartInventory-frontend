@@ -194,7 +194,7 @@ export default function Chart() {
   // -------------------------------------------------------------------------------------------
   const acceptSelectedProducts = () => {
     //Place holder for my dear friend Brad
-    setDeleteProductsDialog(false);
+    setAcceptDialog(false);
     setSelectedProducts(null);
     toast.current.show({
       severity: "success",
