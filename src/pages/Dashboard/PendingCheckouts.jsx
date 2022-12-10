@@ -71,7 +71,6 @@ export const PendingCheckouts = () => {
           <Column field="start_date" header="Start Date" />
         </DataTable>
       </div>
-      PendingCheckouts
     </div>
   );
 };

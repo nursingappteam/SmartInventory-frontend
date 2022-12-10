@@ -202,6 +202,7 @@ export default function Chart() {
       } else {
         /* _product.asset_id = createId();
         _products.push(_product); */
+        console.log(product);
         addProduct(product);
         toast.current.show({
           severity: "success",

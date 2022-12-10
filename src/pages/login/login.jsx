@@ -48,14 +48,6 @@ const NormalLoginForm = ({ setCookies }) => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.user);
-          sessionStorage.setItem("user_id", response.data.user.user_id);
-          sessionStorage.setItem("user_email", response.data.user.user_email);
-          sessionStorage.setItem("user_name", response.data.user.user_name);
-          sessionStorage.setItem(
-            "user_type_id",
-            response.data.user.user_type_id
-          );
           setCookies("inventory_session_id", response.data.cookie);
         }
       })

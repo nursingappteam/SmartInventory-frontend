@@ -11,4 +11,5 @@ const UserContext = createContext({
   user_type_id: "",
   set_user_type_id: () => {},
 });
+
 export default UserContext;

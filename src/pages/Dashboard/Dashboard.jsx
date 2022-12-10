@@ -26,10 +26,14 @@ import { mainListItems } from "../../components/sidebarList";
 import Hello from "./Hello";
 import Orders from "./Orders";
 import { PendingCheckouts } from "./PendingCheckouts";
-import UserContext from "../../components/UserContext";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+//Imports for user data
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import UserContext from "../../components/UserContext";
+import { useContext } from "react";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const drawerWidth = 240;
 
@@ -102,19 +106,52 @@ function DashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  // reset the UserContext for new Route path
+
+  // boiler plate for setting the user data
+  const [cookies, setCookies, removeCookies] = useCookies([
+    "inventory_session_id",
+  ]);
+  // reset the UserContext
   const { user_id, set_user_id } = useContext(UserContext);
   const { user_email, set_user_email } = useContext(UserContext);
   const { user_name, set_user_name } = useContext(UserContext);
   const { user_type_id, set_user_type_id } = useContext(UserContext);
+  // get user data
+  const getUserData = async () => {
+    const request_url = "/users/session/getSession";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        session_id: cookies.inventory_session_id,
+      },
+      url: request_url,
+    };
+
+    //axios request
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(JSON.parse(response.data.session));
+          let cookie = JSON.parse(response.data.session);
+          set_user_id(cookie.user_data_items.user_id);
+          set_user_email(cookie.user_data_items.user_email);
+          set_user_name(cookie.user_data_items.user_name);
+          set_user_type_id(cookie.user_data_items.user_type_id);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("cookie Expired");
+      });
+  };
 
   useEffect(() => {
     if (user_id == "") {
-      set_user_id(sessionStorage.getItem("user_id"));
-      set_user_email(sessionStorage.getItem("user_email"));
-      set_user_name(sessionStorage.getItem("user_name"));
-      set_user_type_id(sessionStorage.getItem("user_type_id"));
-      //useNavigate("/search");
+      getUserData();
     }
   }, []);
   return (
