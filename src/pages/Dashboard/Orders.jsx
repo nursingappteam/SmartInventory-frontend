@@ -1,4 +1,3 @@
-
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.css";
@@ -12,16 +11,16 @@ import axios from "axios";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export default function Chart() {
+  // TODO: change checkout history table for ADMIN and USER
   const [products, setProducts] = useState(null);
   const [globalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
 
-
-// TODO: Get the data from the DB for a specific users Checkout History.
-//       This is just the code from the Search Page, needs to be modified.
-  const getProductData = async () => {
-    const request_url = `https://smartinventory-backend.glitch.me/assets/display_assets`;
+  // TODO: Get the data from the DB for a specific users Checkout History.
+  //       This is just the code from the Search Page, needs to be modified.
+  const getCheckoutHistory = async () => {
+    const request_url = `/checkout/getCheckoutHistory`;
     const options = {
       method: "GET",
       headers: {
@@ -42,7 +41,7 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   useEffect(() => {
-    getProductData();
+    getCheckoutHistory();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   // -------------------------------------------------------------------------------------------
   const header = (

@@ -25,6 +25,15 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems } from "../../components/sidebarList";
 import Hello from "./Hello";
 import Orders from "./Orders";
+import { PendingCheckouts } from "./PendingCheckouts";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+//Imports for user data
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import UserContext from "../../components/UserContext";
+import { useContext } from "react";
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const drawerWidth = 240;
 
@@ -98,6 +107,53 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  // boiler plate for setting the user data
+  const [cookies, setCookies, removeCookies] = useCookies([
+    "inventory_session_id",
+  ]);
+  // reset the UserContext
+  const { user_id, set_user_id } = useContext(UserContext);
+  const { user_email, set_user_email } = useContext(UserContext);
+  const { user_name, set_user_name } = useContext(UserContext);
+  const { user_type_id, set_user_type_id } = useContext(UserContext);
+  // get user data
+  const getUserData = async () => {
+    const request_url = "/users/session/getSession";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        session_id: cookies.inventory_session_id,
+      },
+      url: request_url,
+    };
+
+    //axios request
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(JSON.parse(response.data.session));
+          let cookie = JSON.parse(response.data.session);
+          set_user_id(cookie.user_data_items.user_id);
+          set_user_email(cookie.user_data_items.user_email);
+          set_user_name(cookie.user_data_items.user_name);
+          set_user_type_id(cookie.user_data_items.user_type_id);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("cookie Expired");
+      });
+  };
+
+  useEffect(() => {
+    if (user_id == "") {
+      getUserData();
+    }
+  }, []);
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -184,6 +240,19 @@ function DashboardContent() {
                   }}
                 >
                   <Hello />
+                </Paper>
+              </Grid>
+              {/* TODO: Show pending checkouts to ONLY admin */}
+              <Grid item xs={12}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    backgroundColor: "#FAF9F6",
+                  }}
+                >
+                  <PendingCheckouts />
                 </Paper>
               </Grid>
               <Grid item xs={12}>

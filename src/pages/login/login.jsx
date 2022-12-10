@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import "antd/dist/antd.css";
 import "./styles.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../components/UserContext";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const NormalLoginForm = ({ setCookies }) => {
+  const { user_id, set_user_id } = useContext(UserContext);
+  const { user_email, set_user_email } = useContext(UserContext);
+  const { user_name, set_user_name } = useContext(UserContext);
+  const { user_type_id, set_user_type_id } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const toRegister = () => {
@@ -42,19 +48,7 @@ const NormalLoginForm = ({ setCookies }) => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          /* sessionStorage.setItem("user_type_id", response.data.user_type_id);
-          sessionStorage.setItem("user_id", response.data.user_id);
-          sessionStorage.setItem("user_name", response.data.user_name); */
-          // assign an access token to allow user to pass
-          //console.log(response.data.user);
-          //console.log(response.data.cookie);
-          setCookies(
-            response.data.cookie.name,
-            response.data.cookie.value
-            //response.data.cookie.options
-          );
-
-          //setAccessToken({ accessToken: 5 });
+          setCookies("inventory_session_id", response.data.cookie);
         }
       })
       .catch((error) => {
