@@ -38,6 +38,7 @@ export default function Chart() {
   const [products, setProducts] = useState(null);
   const [productDialog, setProductDialog] = useState(false);
   const [addProductsDialog, setAddProductDialog] = useState(false);
+  const [acceptDialog, setAcceptDialog] = useState(false);
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
   const [product, setProduct] = useState(emptyProduct);
   const [selectedProducts, setSelectedProducts] = useState(null);
@@ -88,6 +89,10 @@ export default function Chart() {
   // -------------------------------------------------------------------------------------------
   const hideAddToCartProductsDialog = () => {
     setAddProductDialog(false);
+  };
+  // -------------------------------------------------------------------------------------------
+  const hideAcceptDialog = () => {
+    setAcceptDialog(false);
   };
   // -------------------------------------------------------------------------------------------
   // When user pressed the save option when you edit or add an new product from the dialog box
@@ -155,6 +160,10 @@ export default function Chart() {
   const confirmAddToCartSelected = () => {
     setAddProductDialog(true);
   };
+  // -------------------------------------------------------------------------------------------
+  const confirmAccept = () => {
+    setAcceptDialog(true);
+  };
    // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
     let _products = products.filter((val) => !selectedProducts.includes(val));
@@ -182,6 +191,18 @@ export default function Chart() {
       life: 3000,
     });
   };
+  // -------------------------------------------------------------------------------------------
+  const acceptSelectedProducts = () => {
+    //Place holder for my dear friend Brad
+    setDeleteProductsDialog(false);
+    setSelectedProducts(null);
+    toast.current.show({
+      severity: "success",
+      summary: "Successful",
+      detail: "Products Accepted",
+      life: 3000,
+    });
+  }
   // -------------------------------------------------------------------------------------------
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || "";
@@ -251,14 +272,14 @@ export default function Chart() {
         <i className="pi pi-search" />
         <InputText
           type="search"
-          size='40'
+          size='30'
           onInput={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search..."
         />
         <Button
           label="Delete"
           icon="pi pi-trash"
-          className="p-button-danger ml-4"
+          className="p-button-danger ml-2"
           onClick={confirmDeleteSelected}
           disabled={!selectedProducts || !selectedProducts.length}
           title="Remove from the Inventory"
@@ -266,10 +287,18 @@ export default function Chart() {
         <Button
           label="Checkout"
           icon="pi pi-shopping-cart"
-          className="p-button-success ml-8"
+          className="p-button-warning ml-2"
           onClick={confirmAddToCartSelected}
           disabled={!selectedProducts || !selectedProducts.length}
           title="Checkout items from cart"
+        />
+        <Button
+          label="Accept"
+          icon="pi pi-check"
+          className="p-button-success ml-2"
+          onClick={confirmAccept}
+          disabled={!selectedProducts || !selectedProducts.length}
+          title="Accept items"
         />
         
         
@@ -324,6 +353,24 @@ export default function Chart() {
         icon="pi pi-check"
         className="yesDeleteButton"
         onClick={deleteSelectedProducts}
+      />
+      
+    </React.Fragment>
+  );
+  // -------------------------------------------------------------------------------------------
+  const acceptDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="No"
+        icon="pi pi-times"
+        className="noDeleteButton"
+        onClick={hideAcceptDialog}
+      />
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        className="yesDeleteButton"
+        onClick={acceptSelectedProducts}
       />
       
     </React.Fragment>
@@ -593,7 +640,28 @@ export default function Chart() {
           />
           {product && (
             <span>
-              Are you sure you want to add the selected product(s) to your Shopping Cart?</span>
+              Are you sure you want to checkout the selected product(s) from your Shopping Cart?</span>
+          )}
+        </div>
+      </Dialog>
+      {/* // ------------------------------------------------------------------------------------------- */}
+      {/* // Accept an asset/non-asset for the accept button on the right side of the row on the table */}
+      <Dialog
+        visible={acceptDialog}
+        style={{ width: "450px" }}
+        header="Confirm"
+        modal
+        footer={acceptDialogFooter}
+        onHide={hideAcceptDialog}
+      >
+        <div className="confirmation-content">
+          <i
+            className="pi pi-exclamation-triangle mr-3"
+            style={{ fontSize: "2rem" }}
+          />
+          {product && (
+            <span>
+              Are you sure you want to accept the selected product(s)?</span>
           )}
         </div>
       </Dialog>
