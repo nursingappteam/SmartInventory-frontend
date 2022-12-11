@@ -16,6 +16,8 @@ import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import "./styles.css";
 import { useCookies } from "react-cookie";
+import { useContext } from "react";
+import UserContext from "../../components/UserContext";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -37,6 +39,9 @@ export default function Chart() {
     sub_location: "",
     building: "",
   };
+
+  // UserContext stuff
+  const { user_type_id, ser_user_type_id } = useContext(UserContext);
 
   const [products, setProducts] = useState([]);
   const [productDialog, setProductDialog] = useState(false);
@@ -695,26 +700,28 @@ export default function Chart() {
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
       {/* // Accept an asset/non-asset for the accept button on the right side of the row on the table */}
-      <Dialog
-        visible={acceptDialog}
-        style={{ width: "450px" }}
-        header="Confirm"
-        modal
-        footer={acceptDialogFooter}
-        onHide={hideAcceptDialog}
-      >
-        <div className="confirmation-content">
-          <i
-            className="pi pi-exclamation-triangle mr-3"
-            style={{ fontSize: "2rem" }}
-          />
-          {product && (
-            <span>
-              Are you sure you want to accept the selected product(s)?
-            </span>
-          )}
-        </div>
-      </Dialog>
+      {user_type_id == 2 && (
+        <Dialog
+          visible={acceptDialog}
+          style={{ width: "450px" }}
+          header="Confirm"
+          modal
+          footer={acceptDialogFooter}
+          onHide={hideAcceptDialog}
+        >
+          <div className="confirmation-content">
+            <i
+              className="pi pi-exclamation-triangle mr-3"
+              style={{ fontSize: "2rem" }}
+            />
+            {product && (
+              <span>
+                Are you sure you want to accept the selected product(s)?
+              </span>
+            )}
+          </div>
+        </Dialog>
+      )}
       {/* // ------------------------------------------------------------------------------------------- */}
       {/* // Delete an asset(s)/non-asset(s) dialog menu for the delete button on the top left of the table */}
       <Dialog

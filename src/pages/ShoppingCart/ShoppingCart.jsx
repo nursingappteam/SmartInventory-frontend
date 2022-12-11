@@ -116,6 +116,7 @@ function ShoppingCartContent() {
   const { user_name, set_user_name } = useContext(UserContext);
   const { user_type_id, set_user_type_id } = useContext(UserContext);
   const { cart_count, set_cart_count } = useContext(UserContext);
+  const { checkout_cart, set_checkout_cart } = useContext(UserContext);
   // get user data
   const getUserData = async () => {
     const request_url = "/users/session/getSession";
@@ -143,6 +144,9 @@ function ShoppingCartContent() {
           set_user_type_id(cookie.user_data_items.user_type_id);
           set_cart_count(
             cookie.user_data_items.user_session_data.checkout_count
+          );
+          set_checkout_cart(
+            cookie.user_data_items.user_session_data.checkout_cart
           );
         }
       })

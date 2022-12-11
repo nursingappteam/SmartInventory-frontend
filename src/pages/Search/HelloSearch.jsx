@@ -39,6 +39,7 @@ export default function Chart() {
     building: "",
   };
   const { cart_count, set_cart_count } = useContext(UserContext);
+  const { checkout_cart, set_checkout_cart } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [productDialog, setProductDialog] = useState(false);
   const [addProductsDialog, setAddProductDialog] = useState(false);
@@ -134,6 +135,17 @@ export default function Chart() {
 
   const sessionUpdateCart = async (values) => {
     let request_url = `/users/session/updateCart`;
+
+    console.log(values);
+    console.log(checkout_cart);
+    // add new items to user's cart to send to backend
+    var newCart = checkout_cart;
+    for (var i = 0; i < values.length; i++) {
+      if (newCart.indexOf(values[i]) === -1) {
+        newCart.push(values[i]);
+      }
+    }
+    console.log(newCart);
     // post the cookie session ID and the list of items
     const options = {
       method: "POST",
@@ -143,7 +155,7 @@ export default function Chart() {
       },
       data: {
         session_id: cookies.inventory_session_id,
-        cart_items: values,
+        cart_items: newCart,
       },
       url: request_url,
     };
