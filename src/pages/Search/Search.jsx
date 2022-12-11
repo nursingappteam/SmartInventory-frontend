@@ -22,7 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // ----------------------------------------------------------------
 // Imports for the page
-import { mainListItems } from "../../components/sidebarList";
+import { MainListItems } from "../../components/sidebarList";
 import SearchMain from "./HelloSearch";
 //Imports for user data
 import axios from "axios";
@@ -101,7 +101,7 @@ function SearchContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  // boiler plate for setting the user data
+  // Boiler Plate ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const [cookies, setCookies, removeCookies] = useCookies([
     "inventory_session_id",
   ]);
@@ -110,6 +110,7 @@ function SearchContent() {
   const { user_email, set_user_email } = useContext(UserContext);
   const { user_name, set_user_name } = useContext(UserContext);
   const { user_type_id, set_user_type_id } = useContext(UserContext);
+  const { cart_count, set_cart_count } = useContext(UserContext);
   // get user data
   const getUserData = async () => {
     const request_url = "/users/session/getSession";
@@ -135,6 +136,9 @@ function SearchContent() {
           set_user_email(cookie.user_data_items.user_email);
           set_user_name(cookie.user_data_items.user_name);
           set_user_type_id(cookie.user_data_items.user_type_id);
+          set_cart_count(
+            cookie.user_data_items.user_session_data.checkout_count
+          );
         }
       })
       .catch((error) => {
@@ -148,6 +152,7 @@ function SearchContent() {
       getUserData();
     }
   }, []);
+  // Boiler Plate ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -205,7 +210,7 @@ function SearchContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <MainListItems />
             <Divider sx={{ my: 1 }} />
           </List>
         </Drawer>

@@ -10,6 +10,8 @@ const UserContext = createContext({
   set_user_name: () => {},
   user_type_id: "",
   set_user_type_id: () => {},
+  cart_count: 0,
+  set_cart_count: () => {},
 });
 
 export default UserContext;

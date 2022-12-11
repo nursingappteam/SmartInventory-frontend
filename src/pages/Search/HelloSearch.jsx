@@ -38,6 +38,7 @@ export default function Chart() {
     sub_location: "",
     building: "",
   };
+  const { cart_count, set_cart_count } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [productDialog, setProductDialog] = useState(false);
   const [addProductsDialog, setAddProductDialog] = useState(false);
@@ -49,10 +50,10 @@ export default function Chart() {
   const [cookies, setCookies, removeCookies] = useCookies([
     "inventory_session_id",
   ]);
-  const { user_id } = useContext(UserContext);
-  console.log(user_id);
+  const { user_type_id } = useContext(UserContext);
   const toast = useRef(null);
   const dt = useRef(null);
+
   // get data from db TODO: Check for surplused Items
   const getProductData = async () => {
     const request_url = `/assets/display_assets`;
@@ -101,12 +102,12 @@ export default function Chart() {
       .catch((err) => {
         console.log(err);
       });
+    getProductData();
   };
 
   // add new Asset
   const addProduct = async (values) => {
     let request_url = "/assets/add";
-
     const options = {
       method: "POST",
       headers: {
@@ -128,6 +129,7 @@ export default function Chart() {
       .catch((err) => {
         console.log(err);
       });
+    getProductData();
   };
 
   const sessionUpdateCart = async (values) => {
@@ -149,8 +151,7 @@ export default function Chart() {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.cart_count);
-          localStorage.setItem("cart_count", response.data.cart_count);
+          set_cart_count(response.data.updatedCartCount);
         }
       })
       .catch((err) => {
@@ -419,7 +420,7 @@ export default function Chart() {
       <div className="card">
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Creation of the top toolbar of the table (Add and Delete button) */}
-        {sessionStorage.getItem("user_type_id") == 2 && (
+        {user_type_id == 2 && (
           <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
         )}
         {/* // ------------------------------------------------------------------------------------------- */}

@@ -25,7 +25,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // ----------------------------------------------------------------
 // Imports for the page
-import { mainListItems } from "../../components/sidebarList";
+import { MainListItems } from "../../components/sidebarList";
 import AccountSettings from "./AccountSettings";
 //Imports for user data
 import axios from "axios";
@@ -115,6 +115,7 @@ function SettingsContent() {
   const { user_email, set_user_email } = useContext(UserContext);
   const { user_name, set_user_name } = useContext(UserContext);
   const { user_type_id, set_user_type_id } = useContext(UserContext);
+  const { cart_count, set_cart_count } = useContext(UserContext);
   // get user data
   const getUserData = async () => {
     const request_url = "/users/session/getSession";
@@ -140,6 +141,9 @@ function SettingsContent() {
           set_user_email(cookie.user_data_items.user_email);
           set_user_name(cookie.user_data_items.user_name);
           set_user_type_id(cookie.user_data_items.user_type_id);
+          set_cart_count(
+            cookie.user_data_items.user_session_data.checkout_count
+          );
         }
       })
       .catch((error) => {
@@ -211,7 +215,7 @@ function SettingsContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <MainListItems />
             <Divider sx={{ my: 1 }} />
           </List>
         </Drawer>
