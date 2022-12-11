@@ -26,8 +26,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // ----------------------------------------------------------------
 // Imports for the page
 import { MainListItems } from "../../components/sidebarList";
-import Orders from "../Dashboard/Orders";
-//import ShoppingCartMain from "./HelloShoppingCart";
+//import Orders from "../Dashboard/Orders";
+import ShoppingCartMain from "./HelloShoppingCart";
 //Imports for user data
 import { useEffect } from "react";
 import axios from "axios";
@@ -244,10 +244,8 @@ function ShoppingCartContent() {
                   }}
                 > */}
                 {/* TODO: Fix shopping cart graphical bug */}
-                {/*                 <ShoppingCartMain />
-                
-                 */}{" "}
-                <Orders />
+                <ShoppingCartMain />
+
                 {/* </Paper> */}
               </Grid>
             </Grid>
