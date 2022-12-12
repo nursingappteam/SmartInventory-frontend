@@ -136,7 +136,6 @@ function ShoppingCartContent() {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          console.log(JSON.parse(response.data.session));
           let cookie = JSON.parse(response.data.session);
           set_user_id(cookie.user_data_items.user_id);
           set_user_email(cookie.user_data_items.user_email);

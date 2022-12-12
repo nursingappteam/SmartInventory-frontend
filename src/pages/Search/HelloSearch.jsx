@@ -135,9 +135,6 @@ export default function Chart() {
 
   const sessionUpdateCart = async (values) => {
     let request_url = `/users/session/updateCart`;
-
-    console.log(values);
-    console.log(checkout_cart);
     // add new items to user's cart to send to backend
     var newCart = checkout_cart;
     for (var i = 0; i < values.length; i++) {
@@ -145,7 +142,6 @@ export default function Chart() {
         newCart.push(values[i]);
       }
     }
-    console.log(newCart);
     // post the cookie session ID and the list of items
     const options = {
       method: "POST",
