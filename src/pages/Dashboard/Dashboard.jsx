@@ -24,7 +24,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // Imports for the page
 import { MainListItems } from "../../components/sidebarList";
 import Hello from "./Hello";
-import Orders from "./Orders";
+import Orders from "./CheckoutHistory";
 import { PendingCheckouts } from "./PendingCheckouts";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -251,18 +251,20 @@ function DashboardContent() {
                 </Paper>
               </Grid>
               {/* TODO: Show pending checkouts to ONLY admin */}
-              <Grid item xs={12}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: "#FAF9F6",
-                  }}
-                >
-                  <PendingCheckouts />
-                </Paper>
-              </Grid>
+              {user_type_id == 2 && (
+                <Grid item xs={12}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#FAF9F6",
+                    }}
+                  >
+                    <PendingCheckouts />
+                  </Paper>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <Paper
                   sx={{

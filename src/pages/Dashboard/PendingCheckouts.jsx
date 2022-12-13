@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export const PendingCheckouts = () => {
+  const [allPendingCheckouts, setAllPendingCheckouts] = useState([]);
   const [checkouts, setCheckouts] = useState([]);
   const [selectedCheckout, setSelectedCheckout] = useState(null);
   const [globalFilter, setGlobalFilter] = useState(null);
@@ -20,15 +21,17 @@ export const PendingCheckouts = () => {
   const toast = useRef(null);
   const dt = useRef(null);
 
+  // TODO: Make popup with list of all checkout items
+  // made state allPendingCheckouts that holds the return
+  // from getPendingCheckouts for easier retreival of list of assetIDs
   const toCheckout = (value) => {
     console.log(value);
-    navigate("/shoppingcart", { state: { user_name: value.user_name } });
+    //navigate("/shoppingcart", { state: { user_id: value.user_id } });
   };
 
   // get all pending checkouts for admin
   const getPendingCheckouts = async () => {
     const request_url = `/checkout/getPendingCheckouts`;
-
     const options = {
       method: "GET",
       headers: {
@@ -40,8 +43,18 @@ export const PendingCheckouts = () => {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          setCheckouts(response.data);
-          console.log(response.data);
+          // set checkout data into a useable table layout
+          setAllPendingCheckouts(response.data);
+          var checkoutData = [];
+
+          for (const key in response.data) {
+            let user_name = response.data[key][0].user_name;
+            let user_id = response.data[key][0].user_id;
+            let start_date = response.data[key][0].start_date;
+            let num = response.data[key].length;
+            checkoutData.push({ user_id, user_name, start_date, num });
+          }
+          setCheckouts(checkoutData);
         }
       })
       .catch((err) => {
@@ -66,8 +79,8 @@ export const PendingCheckouts = () => {
           }}
           selectionMode="single"
         >
-          <Column field="checkout_id" header="Checkout ID" />
           <Column field="user_name" header="Instructor Name" />
+          <Column field="num" header="Size" />
           <Column field="start_date" header="Start Date" />
         </DataTable>
       </div>
