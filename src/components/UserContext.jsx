@@ -12,6 +12,8 @@ const UserContext = createContext({
   set_user_type_id: () => {},
   cart_count: 0,
   set_cart_count: () => {},
+  checkout_cart: [],
+  set_checkout_cart: () => {},
 });
 
 export default UserContext;

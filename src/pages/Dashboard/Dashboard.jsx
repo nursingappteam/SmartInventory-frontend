@@ -24,7 +24,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 // Imports for the page
 import { MainListItems } from "../../components/sidebarList";
 import Hello from "./Hello";
-import Orders from "./Orders";
+import Orders from "./CheckoutHistory";
 import { PendingCheckouts } from "./PendingCheckouts";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -117,6 +117,7 @@ function DashboardContent() {
   const { user_name, set_user_name } = useContext(UserContext);
   const { user_type_id, set_user_type_id } = useContext(UserContext);
   const { cart_count, set_cart_count } = useContext(UserContext);
+  const { checkout_cart, set_checkout_cart } = useContext(UserContext);
   // get user data
   const getUserData = async () => {
     const request_url = "/users/session/getSession";
@@ -144,6 +145,9 @@ function DashboardContent() {
           set_user_type_id(cookie.user_data_items.user_type_id);
           set_cart_count(
             cookie.user_data_items.user_session_data.checkout_count
+          );
+          set_checkout_cart(
+            cookie.user_data_items.user_session_data.checkout_cart
           );
         }
       })
@@ -247,18 +251,20 @@ function DashboardContent() {
                 </Paper>
               </Grid>
               {/* TODO: Show pending checkouts to ONLY admin */}
-              <Grid item xs={12}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    backgroundColor: "#FAF9F6",
-                  }}
-                >
-                  <PendingCheckouts />
-                </Paper>
-              </Grid>
+              {user_type_id == 2 && (
+                <Grid item xs={12}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      backgroundColor: "#FAF9F6",
+                    }}
+                  >
+                    <PendingCheckouts />
+                  </Paper>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <Paper
                   sx={{

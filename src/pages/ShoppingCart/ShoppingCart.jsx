@@ -116,6 +116,7 @@ function ShoppingCartContent() {
   const { user_name, set_user_name } = useContext(UserContext);
   const { user_type_id, set_user_type_id } = useContext(UserContext);
   const { cart_count, set_cart_count } = useContext(UserContext);
+  const { checkout_cart, set_checkout_cart } = useContext(UserContext);
   // get user data
   const getUserData = async () => {
     const request_url = "/users/session/getSession";
@@ -135,7 +136,6 @@ function ShoppingCartContent() {
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
-          console.log(JSON.parse(response.data.session));
           let cookie = JSON.parse(response.data.session);
           set_user_id(cookie.user_data_items.user_id);
           set_user_email(cookie.user_data_items.user_email);
@@ -143,6 +143,9 @@ function ShoppingCartContent() {
           set_user_type_id(cookie.user_data_items.user_type_id);
           set_cart_count(
             cookie.user_data_items.user_session_data.checkout_count
+          );
+          set_checkout_cart(
+            cookie.user_data_items.user_session_data.checkout_cart
           );
         }
       })

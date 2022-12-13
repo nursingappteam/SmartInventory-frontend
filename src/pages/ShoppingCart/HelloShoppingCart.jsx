@@ -16,6 +16,10 @@ import { InputText } from "primereact/inputtext";
 import axios from "axios";
 import "./styles.css";
 import { useCookies } from "react-cookie";
+import { useContext } from "react";
+import UserContext from "../../components/UserContext";
+import moment from "moment/moment";
+import { useLocation } from "wouter";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -38,6 +42,12 @@ export default function Chart() {
     building: "",
   };
 
+  // UserContext stuff
+  const { user_type_id, set_user_type_id } = useContext(UserContext);
+  const { user_id, set_user_id } = useContext(UserContext);
+  const { checkout_cart, set_checkout_cart } = useContext(UserContext);
+  const { cart_count, set_cart_count } = useContext(UserContext);
+
   const [products, setProducts] = useState([]);
   const [productDialog, setProductDialog] = useState(false);
   const [addProductsDialog, setAddProductDialog] = useState(false);
@@ -53,7 +63,6 @@ export default function Chart() {
     "inventory_session_id",
   ]);
 
-  // TODO: get checkout cart for user returns in state products.
   const getCart = async () => {
     const request_url = "/users/session/getCart";
 
@@ -72,9 +81,7 @@ export default function Chart() {
     const res = await axios(options)
       .then((res) => {
         if (res.status === 200) {
-          console.log("loading cart data");
           setProducts(res.data.cart);
-          console.log(res.data);
         }
       })
       .catch((err) => {
@@ -82,21 +89,41 @@ export default function Chart() {
       });
   };
 
-  // TODO: finish adding of items to checkout table
-  const checkout = async () => {
+  // TODO: finish adding of items to checkout table, Possibly use different time scale for 72 hrs
+  const checkout = async (values) => {
     const request_url = `/checkout/createCheckout`;
+    const start_date = moment().format("YYYY-MM-DD HH:MM:SS");
+    var end_date;
+    // wednesday make due
+    if (moment().day() == 4) {
+      end_date = moment().add(4, "days").format("YYYY-MM-DD HH:MM:SS");
+    } else if (moment().day() == 5) {
+      end_date = moment().add(4, "days").format("YYYY-MM-DD HH:MM:SS");
+    } else {
+      end_date = moment().add(2, "days").format("YYYY-MM-DD HH:MM:SS");
+    }
 
+    console.log("Start Date: " + start_date + "\nEnd Date: " + end_date);
     const options = {
       method: "POST",
       headers: {
         Content_Type: "application/json",
         api_key: API_KEY,
       },
+      data: {
+        asset_id: values,
+        start_date: start_date,
+        end_date: end_date,
+        user_id: user_id,
+      },
       url: request_url,
     };
     const response = await axios(options)
       .then((response) => {
         if (response.status === 200) {
+          console.log(response.data);
+          // update sess checkout
+          sessionUpdateCart(values);
           //setProducts(response.data);
         }
       })
@@ -106,13 +133,34 @@ export default function Chart() {
     console.log("checkout");
   };
 
-  const deleteRow = () => {
-    // Copy rows data => delete => reassign to original rows data
-    // let copy = [...rows]
-    // copy = copy.filter(
-    //   (item, index) => i != index
-    // )
-    console.log("deleteed");
+  const sessionUpdateCart = async (values) => {
+    let request_url = `/users/session/updateCart`;
+    // edit cart to only have remaining items.
+    let newCart = checkout_cart.filter((val) => !values.includes(val));
+    console.log("new cart: " + newCart);
+    // post the cookie session ID and the list of items
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        session_id: cookies.inventory_session_id,
+        cart_items: newCart,
+      },
+      url: request_url,
+    };
+
+    const response = await axios(options)
+      .then((response) => {
+        if (response.status === 200) {
+          set_cart_count(response.data.updatedCartCount);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -218,6 +266,12 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   const deleteSelectedProducts = () => {
+    // gets asset_ids from selected items and removes them from the cart
+    var _selectedProducts = [];
+    for (let i in selectedProducts) {
+      _selectedProducts.push(selectedProducts[i].asset_id);
+    }
+    sessionUpdateCart(_selectedProducts);
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setDeleteProductsDialog(false);
@@ -232,6 +286,13 @@ export default function Chart() {
 
   // -------------------------------------------------------------------------------------------
   const addSelectedToCartProducts = () => {
+    // submiting user's checkout.
+    var _selectedProducts = [];
+    for (let i in selectedProducts) {
+      _selectedProducts.push(selectedProducts[i].asset_id);
+    }
+    checkout(_selectedProducts);
+
     let _products = products.filter((val) => !selectedProducts.includes(val));
     setProducts(_products);
     setAddProductDialog(false);
@@ -344,14 +405,16 @@ export default function Chart() {
           disabled={!selectedProducts || !selectedProducts.length}
           title="Checkout items from cart"
         />
-        <Button
-          label="Accept"
-          icon="pi pi-check"
-          className="p-button-success ml-2"
-          onClick={confirmAccept}
-          disabled={!selectedProducts || !selectedProducts.length}
-          title="Accept items"
-        />
+        {user_type_id == 2 && (
+          <Button
+            label="Accept"
+            icon="pi pi-check"
+            className="p-button-success ml-2"
+            onClick={confirmAccept}
+            disabled={!selectedProducts || !selectedProducts.length}
+            title="Accept items"
+          />
+        )}
       </span>
     </div>
   );
@@ -695,26 +758,28 @@ export default function Chart() {
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
       {/* // Accept an asset/non-asset for the accept button on the right side of the row on the table */}
-      <Dialog
-        visible={acceptDialog}
-        style={{ width: "450px" }}
-        header="Confirm"
-        modal
-        footer={acceptDialogFooter}
-        onHide={hideAcceptDialog}
-      >
-        <div className="confirmation-content">
-          <i
-            className="pi pi-exclamation-triangle mr-3"
-            style={{ fontSize: "2rem" }}
-          />
-          {product && (
-            <span>
-              Are you sure you want to accept the selected product(s)?
-            </span>
-          )}
-        </div>
-      </Dialog>
+      {user_type_id == 2 && (
+        <Dialog
+          visible={acceptDialog}
+          style={{ width: "450px" }}
+          header="Confirm"
+          modal
+          footer={acceptDialogFooter}
+          onHide={hideAcceptDialog}
+        >
+          <div className="confirmation-content">
+            <i
+              className="pi pi-exclamation-triangle mr-3"
+              style={{ fontSize: "2rem" }}
+            />
+            {product && (
+              <span>
+                Are you sure you want to accept the selected product(s)?
+              </span>
+            )}
+          </div>
+        </Dialog>
+      )}
       {/* // ------------------------------------------------------------------------------------------- */}
       {/* // Delete an asset(s)/non-asset(s) dialog menu for the delete button on the top left of the table */}
       <Dialog

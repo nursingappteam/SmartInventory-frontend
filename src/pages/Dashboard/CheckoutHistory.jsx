@@ -41,7 +41,7 @@ export default function Chart() {
   };
   // -------------------------------------------------------------------------------------------
   useEffect(() => {
-    getCheckoutHistory();
+    //getCheckoutHistory();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   // -------------------------------------------------------------------------------------------
   const header = (

@@ -18,6 +18,7 @@ function App() {
   const [user_name, set_user_name] = useState("");
   const [user_type_id, set_user_type_id] = useState("");
   const [cart_count, set_cart_count] = useState(0);
+  const [checkout_cart, set_checkout_cart] = useState(0);
 
   const userData = {
     user_id,
@@ -30,6 +31,8 @@ function App() {
     set_user_type_id,
     cart_count,
     set_cart_count,
+    checkout_cart,
+    set_checkout_cart,
   };
 
   const [cookies, setCookies, removeCookies] = useCookies([
