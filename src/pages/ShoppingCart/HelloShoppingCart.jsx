@@ -836,7 +836,7 @@ export default function Chart(props) {
       </Dialog>
       {/* // ------------------------------------------------------------------------------------------- */}
       {/* // Accept an asset/non-asset for the accept button on the right side of the row on the table */}
-      {user_type_id == 2 && (
+      {user_type_id == 1 && props.inDialog && (
         <Dialog
           visible={acceptDialog}
           style={{ width: "450px" }}
