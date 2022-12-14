@@ -428,7 +428,7 @@ export default function Chart() {
       <div className="card">
         {/* // ------------------------------------------------------------------------------------------- */}
         {/* // Creation of the top toolbar of the table (Add and Delete button) */}
-        {user_type_id == 2 && (
+        {user_type_id == 1 && (
           <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
         )}
         {/* // ------------------------------------------------------------------------------------------- */}

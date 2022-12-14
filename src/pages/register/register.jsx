@@ -32,8 +32,8 @@ const RegisterForm = () => {
         username: name,
         user_email: username,
         password,
-        // regular user
-        user_type: 1,
+        // regular user: 2
+        user_type: 2,
       },
       url: request_url,
     };

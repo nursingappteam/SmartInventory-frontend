@@ -8,15 +8,22 @@ import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import ShoppingCartMain from "../ShoppingCart/HelloShoppingCart";
+import { Dialog } from "primereact/dialog";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 export const PendingCheckouts = () => {
   const [allPendingCheckouts, setAllPendingCheckouts] = useState([]);
+  const [key, setKey] = useState(null);
   const [checkouts, setCheckouts] = useState([]);
   const [selectedCheckout, setSelectedCheckout] = useState(null);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [checkoutItemsDialog, setCheckoutItemsDialog] = useState(false);
   const navigate = useNavigate();
+
+  const hideList = () => {
+    setCheckoutItemsDialog(false);
+  };
 
   const toast = useRef(null);
   const dt = useRef(null);
@@ -72,10 +79,12 @@ export const PendingCheckouts = () => {
       <div className="card">
         <DataTable
           ref={dt}
+          header="Pending Checkouts"
           value={checkouts}
           selection={selectedCheckout}
           onSelectionChange={(e) => {
-            toCheckout(e.value);
+            setKey(e.value.user_id);
+            setCheckoutItemsDialog(true);
           }}
           selectionMode="single"
         >
@@ -83,6 +92,14 @@ export const PendingCheckouts = () => {
           <Column field="num" header="Size" />
           <Column field="start_date" header="Start Date" />
         </DataTable>
+        {/* Pop up that shows the list of the checkout assets to the Admin*/}
+        <Dialog
+          header="Checkout Items"
+          visible={checkoutItemsDialog}
+          onHide={hideList}
+        >
+          <ShoppingCartMain items={allPendingCheckouts[key]} inDialog={true} />
+        </Dialog>
       </div>
     </div>
   );
