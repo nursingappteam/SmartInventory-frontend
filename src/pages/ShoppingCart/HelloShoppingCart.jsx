@@ -23,7 +23,7 @@ import { useLocation } from "wouter";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-export default function Chart() {
+export default function Chart(props) {
   let emptyProduct = {
     asset_id: null,
     cust_dept_desc: "",
@@ -89,7 +89,77 @@ export default function Chart() {
       });
   };
 
-  // TODO: finish adding of items to checkout table, Possibly use different time scale for 72 hrs
+  const acceptCheckout = async (values) => {
+    let request_url = "/checkout/approveCheckout";
+    // find asset_id's that are chosen and find their counterpart checkout_id
+    const checkouts = props.items;
+
+    var chosenCheckouts = [];
+    for (let i = 0; i < checkouts.length; i++) {
+      for (let j = 0; j < values.length; j++) {
+        if (checkouts[i].asset_id == values[j].asset_id) {
+          chosenCheckouts.push(checkouts[i].checkout_id);
+        }
+      }
+    }
+    console.log(chosenCheckouts);
+
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        checkout_ids: chosenCheckouts,
+      },
+      url: request_url,
+    };
+
+    const res = await axios(options)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("Checkouts " + chosenCheckouts + " accepted");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // used to get the checkouts of a specific key
+  // and then return all of the assets
+  // assicuated with that checkout
+  const getCheckout = async () => {
+    const request_url = "/assets/get_assets";
+    var assets = [];
+    for (let i in props.items) {
+      assets.push(props.items[i].asset_id);
+    }
+    const options = {
+      method: "POST",
+      headers: {
+        Content_Type: "application/json",
+        api_key: API_KEY,
+      },
+      data: {
+        asset_id: assets,
+      },
+      url: request_url,
+    };
+
+    const res = await axios(options)
+      .then((res) => {
+        if (res.status === 200) {
+          setProducts(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // TODO: Possibly use different time scale for 72 hrs
   const checkout = async (values) => {
     const request_url = `/checkout/createCheckout`;
     const start_date = moment().format("YYYY-MM-DD HH:MM:SS");
@@ -103,7 +173,6 @@ export default function Chart() {
       end_date = moment().add(2, "days").format("YYYY-MM-DD HH:MM:SS");
     }
 
-    console.log("Start Date: " + start_date + "\nEnd Date: " + end_date);
     const options = {
       method: "POST",
       headers: {
@@ -170,7 +239,13 @@ export default function Chart() {
 
   // load in data for user's shopping cart
   useEffect(() => {
-    getCart();
+    // if it's a dialog, get list of assets from props and make that products
+    if (props.inDialog) {
+      console.log(props.items);
+      getCheckout(props.items);
+    } else {
+      getCart();
+    }
   }, []);
   const openNew = () => {
     setProduct(emptyProduct);
@@ -307,7 +382,8 @@ export default function Chart() {
   // -------------------------------------------------------------------------------------------
   const acceptSelectedProducts = () => {
     //Place holder for my dear friend Brad
-    setAcceptDialog(false);
+    acceptCheckout(selectedProducts);
+    hideAcceptDialog(false);
     setSelectedProducts(null);
     toast.current.show({
       severity: "success",
@@ -397,14 +473,16 @@ export default function Chart() {
           disabled={!selectedProducts || !selectedProducts.length}
           title="Remove from the Inventory"
         />
-        <Button
-          label="Checkout"
-          icon="pi pi-shopping-cart"
-          className="p-button-warning ml-2"
-          onClick={confirmAddToCartSelected}
-          disabled={!selectedProducts || !selectedProducts.length}
-          title="Checkout items from cart"
-        />
+        {!props.inDialog && (
+          <Button
+            label="Checkout"
+            icon="pi pi-shopping-cart"
+            className="p-button-warning ml-2"
+            onClick={confirmAddToCartSelected}
+            disabled={!selectedProducts || !selectedProducts.length}
+            title="Checkout items from cart"
+          />
+        )}
         {user_type_id == 2 && (
           <Button
             label="Accept"
