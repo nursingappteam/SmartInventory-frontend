@@ -251,7 +251,7 @@ function DashboardContent() {
                 </Paper>
               </Grid>
               {/* TODO: Show pending checkouts to ONLY admin */}
-              {user_type_id == 2 && (
+              {user_type_id == 1 && (
                 <Grid item xs={12}>
                   <Paper
                     sx={{

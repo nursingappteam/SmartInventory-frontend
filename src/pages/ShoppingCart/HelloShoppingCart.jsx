@@ -483,7 +483,7 @@ export default function Chart(props) {
             title="Checkout items from cart"
           />
         )}
-        {user_type_id == 2 && (
+        {user_type_id == 1 && (
           <Button
             label="Accept"
             icon="pi pi-check"
